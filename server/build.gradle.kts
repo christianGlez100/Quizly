@@ -22,6 +22,7 @@ dependencies {
     implementation(libs.ktor.server.call.logging)
     implementation(libs.exposed.core)
     implementation(libs.exposed.jdbc)
+    implementation(libs.exposed.java.time)
     implementation(libs.mysql.connector.java)
     implementation(libs.ktor.koin)
     implementation(libs.hikari)

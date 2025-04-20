@@ -51,6 +51,7 @@ ktor-koin = { module = "io.insert-koin:koin-ktor", version.ref = "ktor-koin" }
 hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
 exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed-version" }
 exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed-version" }
+exposed-java-time = { module = "org.jetbrains.exposed:exposed-java-time", version.ref = "exposed-version" }
 mysql-connector-java = { module = "mysql:mysql-connector-java", version.ref = "mysql" }
 
 ktor-server-tests = { module = "io.ktor:ktor-server-tests-jvm", version.ref = "ktor-test" }

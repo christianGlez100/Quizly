@@ -1,0 +1,33 @@
+package com.sesi.quizly.data.entity
+
+import kotlinx.serialization.Serializable
+import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.javatime.CurrentDateTime
+import org.jetbrains.exposed.sql.javatime.datetime
+import java.util.Calendar
+
+@Serializable
+data class User(
+    val id: Long,
+    val userName: String,
+    val email: String,
+    val password: String,
+    val userImage: String,
+    val userBio: String,
+    val isCreator: Boolean,
+    val createdAt: Calendar,
+)
+
+object Users : Table("users") {
+    val id = long("id").autoIncrement()
+    val userName = varchar("user_name", 100)
+    val email = varchar("email", 150)
+    val password = text("password")
+    val userImage = text("user_image")
+    val userBio = text("user_bio")
+    val isCreator = bool("is_creator")
+    val createdAt = datetime("created_at").defaultExpression(CurrentDateTime)
+
+    override val primaryKey: PrimaryKey
+        get() = PrimaryKey(id)
+}
