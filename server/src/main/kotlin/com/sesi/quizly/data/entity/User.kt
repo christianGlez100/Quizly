@@ -1,10 +1,11 @@
 package com.sesi.quizly.data.entity
 
+import com.sesi.quizly.utils.LocalDateTimeSerializer
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.CurrentDateTime
 import org.jetbrains.exposed.sql.javatime.datetime
-import java.util.Calendar
+import java.time.LocalDateTime
 
 @Serializable
 data class User(
@@ -15,7 +16,8 @@ data class User(
     val userImage: String,
     val userBio: String,
     val isCreator: Boolean,
-    val createdAt: Calendar,
+    //@Serializable(with = LocalDateTimeSerializer::class)
+    //val createdAt: LocalDateTime? = LocalDateTime.now(),
 )
 
 object Users : Table("users") {

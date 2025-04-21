@@ -14,7 +14,7 @@ data class UserQuizResult(
     val userId: Long,
     val resultId: Long,
     val score: Int,
-    val createdAt: Calendar
+    val createdAt: String
 )
 
 object UserQuizResults : Table("user_quiz_results") {

@@ -15,7 +15,7 @@ data class UserOauthProviders(
     val providerUserId: String,
     val accessToken: String,
     val refreshToken: String,
-    val createdAt: Calendar,
+    val createdAt: String,
 )
 
 object UserOauthProvidersTable : Table("user_oauth_providers") {

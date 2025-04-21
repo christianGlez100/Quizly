@@ -1,14 +1,19 @@
 plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.ktor)
+    alias(libs.plugins.kotlin.plugin.serialization)
     application
 }
 
 group = "com.sesi.quizly"
 version = "1.0.0"
 application {
-    mainClass.set("com.sesi.quizly.ApplicationKt")
+    mainClass = "com.sesi.quizly.MainAppKt"
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=${extra["io.ktor.development"] ?: "false"}")
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
@@ -18,7 +23,6 @@ dependencies {
     implementation(libs.ktor.server.netty)
     implementation(libs.ktor.server.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)
-    implementation(libs.ktor.server.config.yaml)
     implementation(libs.ktor.server.call.logging)
     implementation(libs.exposed.core)
     implementation(libs.exposed.jdbc)
@@ -26,6 +30,7 @@ dependencies {
     implementation(libs.mysql.connector.java)
     implementation(libs.ktor.koin)
     implementation(libs.hikari)
+    implementation(libs.ktor.server.config.yaml)
     testImplementation(libs.ktor.server.tests)
     testImplementation(libs.kotlin.test.junit)
 }

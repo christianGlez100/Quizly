@@ -17,7 +17,7 @@ data class Quiz(
     val isPremium: Boolean,
     val price: Double,
     val coverImage: String,
-    val createdAt: Calendar
+    val createdAt: String
 )
 
 object Quizzes : Table("quizzes") {

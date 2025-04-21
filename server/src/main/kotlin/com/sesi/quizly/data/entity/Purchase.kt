@@ -13,7 +13,7 @@ data class Purchase(
     val userId: Long,
     val quizId: Long,
     val amountPaid: Double,
-    val purchaseDate: Calendar
+    val purchaseDate: String
 )
 
 object Purchases : Table("purchases") {

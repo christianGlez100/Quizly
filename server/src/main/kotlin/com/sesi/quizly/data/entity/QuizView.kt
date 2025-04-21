@@ -12,7 +12,7 @@ data class QuizView(
     val id: Long,
     val quizId: Long,
     val userId: Long,
-    val viewedAt: Calendar
+    val viewedAt: String
 )
 
 object QuizViews : Table("quiz_views") {
