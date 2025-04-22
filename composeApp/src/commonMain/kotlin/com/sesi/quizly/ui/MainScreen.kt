@@ -9,6 +9,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Scaffold
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -48,6 +50,7 @@ fun MainScreen() {
             navigationItem?.title ?: ""
         }
     }
+    val snackbarHostState = remember { SnackbarHostState() }
 
     Row {
         AnimatedVisibility(
@@ -86,10 +89,12 @@ fun MainScreen() {
                     )
                 }
             },
-            topBar = { QuizlyHeader(title = title, isBackVisible = false) {} }
+            topBar = { QuizlyHeader(title = title, isBackVisible = false) {} },
+            snackbarHost = { SnackbarHost(snackbarHostState) }
         ) { innerPadding ->
             MainNavigation(
-                rootNavController = rootNavController
+                rootNavController = rootNavController,
+                snackbarHostState = snackbarHostState
             )
         }
     }

@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,7 +37,7 @@ import quizly.composeapp.generated.resources.app_name
 import quizly.composeapp.generated.resources.compose_multiplatform
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(snackbarHostState: SnackbarHostState) {
     Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         //QuizlyHeader(title = stringResource(Res.string.app_name)){}
         Body()
