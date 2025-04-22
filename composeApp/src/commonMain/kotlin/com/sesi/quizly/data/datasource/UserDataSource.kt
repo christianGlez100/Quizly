@@ -1,6 +1,5 @@
 package com.sesi.quizly.data.datasource
 
-import com.sesi.quizly.BuildConfig
 import com.sesi.quizly.data.client.request.CreateUserRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
@@ -13,7 +12,7 @@ import io.ktor.http.contentType
 class UserDataSource(
     private val ktorClient: HttpClient
 ) {
-    private val urlBase = BuildConfig().getBaseUrl()
+    private val urlBase = "192.168.50.231:8080"
 
     suspend fun createUser(
         request: CreateUserRequest,
