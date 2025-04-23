@@ -2,6 +2,7 @@ package com.sesi.quizly
 
 import android.app.Application
 import com.sesi.quizly.di.appModule
+import io.ktor.client.engine.android.Android
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -13,7 +14,7 @@ class MainApplication: Application() {
         startKoin {
             androidContext(this@MainApplication)
             androidLogger()
-            modules(appModule())
+            modules(appModule(Android.create()))
         }
     }
 }
