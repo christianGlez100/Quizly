@@ -1,6 +1,7 @@
 package com.sesi.quizly.ui.signin
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,8 +16,12 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Matrix
 import androidx.compose.ui.layout.ContentScale
@@ -37,6 +43,7 @@ import coil3.Bitmap
 import com.sesi.quizly.data.client.request.CreateUserRequest
 import com.sesi.quizly.ui.components.AlertMessageDialog
 import com.sesi.quizly.ui.components.ImageSourceOptionDialog
+import com.sesi.quizly.ui.components.TextFieldQ
 import com.sesi.quizly.ui.signin.viewmodel.SignInState
 import com.sesi.quizly.ui.signin.viewmodel.SignInViewModel
 import com.skydoves.landscapist.coil3.CoilImage
@@ -60,7 +67,7 @@ import shared.rememberGalleryManager
 fun SignInScreen(
     viewModel: SignInViewModel = koinViewModel(),
     snackbarHostState: SnackbarHostState
-){
+) {
     val scope = rememberCoroutineScope()
     val state: SignInState by viewModel.state.collectAsStateWithLifecycle()
     when (state) {
@@ -94,7 +101,7 @@ fun SignInScreen(
 }
 
 @Composable
-fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg:String="") {
+fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg: String = "") {
     var userName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -179,7 +186,8 @@ fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg:String="") {
         launchSetting = false
     }
     if (permissionRationalDialog) {
-        AlertMessageDialog(title = "Permission Required",
+        AlertMessageDialog(
+            title = "Permission Required",
             message = "To set your profile picture, please grant this permission. You can manage permissions in your device settings.",
             positiveButtonText = "Settings",
             negativeButtonText = "Cancel",
@@ -194,99 +202,122 @@ fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg:String="") {
 
     }
 
-        Box(modifier = Modifier.fillMaxSize()) {
-            if (isError) {
-                scope.launch {
-                    snackbarHostState.showSnackbar(msg)
+    Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
+        if (isError) {
+            scope.launch {
+                snackbarHostState.showSnackbar(msg)
+            }
+        }
+
+        Column(modifier = Modifier.fillMaxSize()) {
+            Row(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 30.dp)) {
+                if (imageBitmap == null) {
+                    Image(
+                        painter = painterResource(Res.drawable.ic_person_circle),
+                        contentDescription = "user",
+                        modifier = Modifier.size(120.dp).clip(RoundedCornerShape(50.dp)).clickable {
+                            imageSourceOptionDialog = true
+                        },
+                        contentScale = ContentScale.FillBounds,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
+                    )
+                } else {
+                    Image(
+                        bitmap = imageBitmap!!,
+                        contentDescription = "user",
+                        modifier = Modifier.size(120.dp).clip(RoundedCornerShape(50.dp)).clickable {
+                            imageSourceOptionDialog = true
+                        },
+                        contentScale = ContentScale.FillBounds,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
+                    )
                 }
             }
 
-            Column(modifier = Modifier.fillMaxSize()) {
-                Row(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 30.dp)) {
-                    if(imageBitmap == null){
-                        Image(
-                            painter = painterResource(Res.drawable.ic_person_circle),
-                            contentDescription = "user",
-                            modifier = Modifier.size(120.dp).clip(RoundedCornerShape(50.dp)).clickable {
-                                imageSourceOptionDialog = true
-                            },
-                            contentScale = ContentScale.FillBounds
-                        )
-                    } else {
-                        Image(
-                            bitmap = imageBitmap!!,
-                            contentDescription = "user",
-                            modifier = Modifier.size(120.dp).clip(RoundedCornerShape(50.dp)).clickable {
-                                imageSourceOptionDialog = true
-                            },
-                            contentScale = ContentScale.FillBounds
-                        )
-                    }
-                }
-
-                Row(
-                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
-                        .padding(top = 16.dp)
-                ) {
-                    OutlinedTextField(
-                        value = userName,
-                        onValueChange = { userName = it },
-                        label = { Text("User Name") },
-                        maxLines = 1,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+            Row(
+                modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                    .padding(top = 16.dp)
+            ) {
+                TextFieldQ(
+                    hint = "User Name",
+                    value = userName,
+                    KeyboardOptions(keyboardType = KeyboardType.Text),
+                    onValueChange = { userName = it })
+                /*OutlinedTextField(
+                    value = userName,
+                    onValueChange = { userName = it },
+                    label = { Text("User Name", color = MaterialTheme.colorScheme.secondary) },
+                    maxLines = 1,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                        focusedLabelColor = MaterialTheme.colorScheme.primary,
+                        unfocusedLabelColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                        cursorColor = MaterialTheme.colorScheme.primary,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                        focusedContainerColor = MaterialTheme.colorScheme.surface,
+                        focusedTextColor = MaterialTheme.colorScheme.primary,
+                        unfocusedTextColor = MaterialTheme.colorScheme.primary
                     )
+                )*/
 
-                }
-                Row(
-                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
-                        .padding(top = 16.dp)
-                ) {
-                    OutlinedTextField(
-                        value = email,
-                        onValueChange = { email = it },
-                        label = { Text("Email") },
-                        maxLines = 1,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
-                    )
+            }
+            Row(
+                modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                    .padding(top = 16.dp)
+            ) {
+                TextFieldQ(
+                    hint = "Email",
+                    value = email,
+                    KeyboardOptions(keyboardType = KeyboardType.Email),
+                    onValueChange = { email = it })
+                /*OutlinedTextField(
+                    value = email,
+                    onValueChange = { email = it },
+                    label = { Text("Email") },
+                    maxLines = 1,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                )*/
 
-                }
+            }
 
-                Row(
-                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
-                        .padding(top = 16.dp)
-                ) {
-                    OutlinedTextField(
-                        value = password,
-                        onValueChange = { password = it },
-                        label = { Text("Password") },
-                        maxLines = 1,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
-                    )
+            Row(
+                modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                    .padding(top = 16.dp)
+            ) {
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text("Password") },
+                    maxLines = 1,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                )
 
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(top = 16.dp, start = 16.dp, end = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    ElevatedButton(onClick = {
-                        viewModel.createUser(
-                            CreateUserRequest(
-                                id = 0,
-                                userName = userName,
-                                email = email,
-                                password = password,
-                                userImage = imgUser,
-                                userBio = "",
-                                isCreator = false
-                            )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                ElevatedButton(onClick = {
+                    viewModel.createUser(
+                        CreateUserRequest(
+                            id = 0,
+                            userName = userName,
+                            email = email,
+                            password = password,
+                            userImage = imgUser,
+                            userBio = "",
+                            isCreator = false
                         )
-                    }, modifier = Modifier.fillMaxWidth()) {
-                        Text("Sigin")
-                    }
+                    )
+                }, modifier = Modifier.fillMaxWidth()) {
+                    Text("Sigin")
                 }
             }
         }
+    }
 
 }

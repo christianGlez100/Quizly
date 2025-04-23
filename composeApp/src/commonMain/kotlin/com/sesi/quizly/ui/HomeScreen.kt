@@ -1,6 +1,7 @@
 package com.sesi.quizly.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,7 +40,7 @@ import quizly.composeapp.generated.resources.compose_multiplatform
 
 @Composable
 fun HomeScreen(snackbarHostState: SnackbarHostState) {
-    Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.background), horizontalAlignment = Alignment.CenterHorizontally) {
         //QuizlyHeader(title = stringResource(Res.string.app_name)){}
         Body()
     }
@@ -78,13 +80,11 @@ fun QuizItems(quiz:QuizDto) {
             Column(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)) {
                 Text(
                     text = "Decora tu cuarto de ensueño y te diremos con qué vampiro compartes personalidad",
-                    color = QuizlyColors.TextPrimary,
                     maxLines = 3,
                     style = QuizlyTypography.bodyMedium
                 )
                 Text(
                     text = "UFFFF qué buenos personajes",
-                    color = QuizlyColors.TextSecondary,
                     style = QuizlyTypography.bodySmall,
                     maxLines = 2
                 )

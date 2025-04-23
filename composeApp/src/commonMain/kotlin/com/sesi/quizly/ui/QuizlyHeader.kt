@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,7 +30,7 @@ import quizly.composeapp.generated.resources.ic_left_arrow
 fun QuizlyHeader(title: String, isBackVisible:Boolean = false, onBackEvent: () -> Unit) {
     PreComposeApp {
         QuizlyTheme {
-            Box(modifier = Modifier.background(Color.White).fillMaxWidth().height(60.dp)) {
+            Box(modifier = Modifier.background(MaterialTheme.colorScheme.primary).fillMaxWidth().height(60.dp)) {
                 if (isBackVisible) {
                     Row(
                         modifier = Modifier.fillMaxSize(),
@@ -40,7 +41,7 @@ fun QuizlyHeader(title: String, isBackVisible:Boolean = false, onBackEvent: () -
                             Icon(
                                 painter = painterResource(Res.drawable.ic_left_arrow),
                                 contentDescription = "back button",
-                                tint = QuizlyColors.Primary,
+                                tint = MaterialTheme.colorScheme.onPrimary,
                                 modifier = Modifier.size(30.dp)
                             )
                         }
@@ -53,8 +54,8 @@ fun QuizlyHeader(title: String, isBackVisible:Boolean = false, onBackEvent: () -
                 ){
                     Text(
                         text = title,
-                        color = QuizlyColors.TextPrimary,
-                        style = QuizlyTypography.titleMedium
+                        style = QuizlyTypography.titleMedium,
+                        color = MaterialTheme.colorScheme.onPrimary,
                     )
                 }
 
