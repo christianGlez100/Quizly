@@ -57,6 +57,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.accompanist.permissions)
 
             //Koin
             implementation(libs.koin.android)
@@ -116,6 +117,8 @@ android {
     namespace = "com.sesi.quizly"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
+    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+
     defaultConfig {
         applicationId = "com.sesi.quizly"
         minSdk = libs.versions.android.minSdk.get().toInt()
@@ -144,6 +147,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.exifinterface)
     debugImplementation(compose.uiTooling)
 }
 

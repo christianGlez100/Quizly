@@ -12,14 +12,14 @@ import io.ktor.http.contentType
 class UserDataSource(
     private val ktorClient: HttpClient
 ) {
-    private val urlBase = "192.168.50.231:8080"
+    private val urlBase = "http://192.168.50.231:8080"
 
     suspend fun createUser(
         request: CreateUserRequest,
         handler: (error: String?, response: Boolean) -> Unit
         ) {
         try {
-            val clientResponse = ktorClient.post("${urlBase}/users") {
+            val clientResponse = ktorClient.post("${urlBase}/user") {
                 contentType(ContentType.Application.Json)
                 setBody(request)
             }

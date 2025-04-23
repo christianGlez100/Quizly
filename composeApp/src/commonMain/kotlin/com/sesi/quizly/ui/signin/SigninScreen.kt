@@ -26,18 +26,35 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Matrix
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil3.Bitmap
 import com.sesi.quizly.data.client.request.CreateUserRequest
+import com.sesi.quizly.ui.components.AlertMessageDialog
+import com.sesi.quizly.ui.components.ImageSourceOptionDialog
 import com.sesi.quizly.ui.signin.viewmodel.SignInState
 import com.sesi.quizly.ui.signin.viewmodel.SignInViewModel
+import com.skydoves.landscapist.coil3.CoilImage
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import quizly.composeapp.generated.resources.Res
+import quizly.composeapp.generated.resources.ic_person_circle
 import quizly.composeapp.generated.resources.ic_user
+import shared.PermissionCallback
+import shared.PermissionStatus
+import shared.PermissionType
+import shared.createPermissionsManager
+import shared.rememberCameraManager
+import shared.rememberGalleryManager
 
 @Composable
 fun SignInScreen(
@@ -82,9 +99,100 @@ fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg:String="") {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var imgUser by remember { mutableStateOf("") }
-
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    // camera n gallery
+    var launchSetting by remember { mutableStateOf(value = false) }
+    val coroutineScope = rememberCoroutineScope()
+    var imageSourceOptionDialog by remember { mutableStateOf(value = false) }
+    var launchCamera by remember { mutableStateOf(value = false) }
+    var launchGallery by remember { mutableStateOf(value = false) }
+    var imageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
+    var permissionRationalDialog by remember { mutableStateOf(value = false) }
+    val permissionsManager = createPermissionsManager(object : PermissionCallback {
+        override fun onPermissionStatus(
+            permissionType: PermissionType,
+            status: PermissionStatus
+        ) {
+            when (status) {
+                PermissionStatus.GRANTED -> {
+                    when (permissionType) {
+                        PermissionType.CAMERA -> launchCamera = true
+                        PermissionType.GALLERY -> launchGallery = true
+                    }
+                }
+
+                else -> {
+                    permissionRationalDialog = true
+                }
+            }
+        }
+
+
+    })
+    val cameraManager = rememberCameraManager {
+        coroutineScope.launch {
+            val bitmap = withContext(Dispatchers.Default) {
+                it?.toImageBitmap()
+            }
+            imageBitmap = bitmap
+        }
+    }
+    val galleryManager = rememberGalleryManager {
+        coroutineScope.launch {
+            val bitmap = withContext(Dispatchers.Default) {
+                it?.toImageBitmap()
+            }
+            imageBitmap = bitmap
+        }
+    }
+
+    if (imageSourceOptionDialog) {
+        ImageSourceOptionDialog(onDismissRequest = {
+            imageSourceOptionDialog = false
+        }, onGalleryRequest = {
+            imageSourceOptionDialog = false
+            launchGallery = true
+        }, onCameraRequest = {
+            imageSourceOptionDialog = false
+            launchCamera = true
+        })
+    }
+    if (launchGallery) {
+        if (permissionsManager.isPermissionGranted(PermissionType.GALLERY)) {
+            galleryManager.launch()
+        } else {
+            permissionsManager.askPermission(PermissionType.GALLERY)
+        }
+        launchGallery = false
+    }
+    if (launchCamera) {
+        if (permissionsManager.isPermissionGranted(PermissionType.CAMERA)) {
+            cameraManager.launch()
+        } else {
+            permissionsManager.askPermission(PermissionType.CAMERA)
+        }
+        launchCamera = false
+    }
+    if (launchSetting) {
+        permissionsManager.launchSettings()
+        launchSetting = false
+    }
+    if (permissionRationalDialog) {
+        AlertMessageDialog(title = "Permission Required",
+            message = "To set your profile picture, please grant this permission. You can manage permissions in your device settings.",
+            positiveButtonText = "Settings",
+            negativeButtonText = "Cancel",
+            onPositiveClick = {
+                permissionRationalDialog = false
+                launchSetting = true
+
+            },
+            onNegativeClick = {
+                permissionRationalDialog = false
+            })
+
+    }
 
         Box(modifier = Modifier.fillMaxSize()) {
             if (isError) {
@@ -95,13 +203,25 @@ fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg:String="") {
 
             Column(modifier = Modifier.fillMaxSize()) {
                 Row(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 30.dp)) {
-                    Image(
-                        painter = painterResource(Res.drawable.ic_user),
-                        contentDescription = "user",
-                        modifier = Modifier.size(100.dp).clip(RoundedCornerShape(50.dp)).clickable {
-
-                        }
-                    )
+                    if(imageBitmap == null){
+                        Image(
+                            painter = painterResource(Res.drawable.ic_person_circle),
+                            contentDescription = "user",
+                            modifier = Modifier.size(120.dp).clip(RoundedCornerShape(50.dp)).clickable {
+                                imageSourceOptionDialog = true
+                            },
+                            contentScale = ContentScale.FillBounds
+                        )
+                    } else {
+                        Image(
+                            bitmap = imageBitmap!!,
+                            contentDescription = "user",
+                            modifier = Modifier.size(120.dp).clip(RoundedCornerShape(50.dp)).clickable {
+                                imageSourceOptionDialog = true
+                            },
+                            contentScale = ContentScale.FillBounds
+                        )
+                    }
                 }
 
                 Row(
