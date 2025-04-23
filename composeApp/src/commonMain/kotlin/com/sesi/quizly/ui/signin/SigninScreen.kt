@@ -12,50 +12,55 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicSecureTextField
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.Matrix
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil3.Bitmap
 import com.sesi.quizly.data.client.request.CreateUserRequest
 import com.sesi.quizly.ui.components.AlertMessageDialog
+import com.sesi.quizly.ui.components.ButtonQ
 import com.sesi.quizly.ui.components.ImageSourceOptionDialog
 import com.sesi.quizly.ui.components.TextFieldQ
 import com.sesi.quizly.ui.signin.viewmodel.SignInState
 import com.sesi.quizly.ui.signin.viewmodel.SignInViewModel
-import com.skydoves.landscapist.coil3.CoilImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import quizly.composeapp.generated.resources.Res
 import quizly.composeapp.generated.resources.ic_person_circle
-import quizly.composeapp.generated.resources.ic_user
 import shared.PermissionCallback
 import shared.PermissionStatus
 import shared.PermissionType
@@ -102,6 +107,7 @@ fun SignInScreen(
 
 @Composable
 fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg: String = "") {
+    var passwordVisible by rememberSaveable { mutableStateOf(false) }
     var userName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -236,19 +242,35 @@ fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg: String = "") {
 
             Row(
                 modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
-                    .padding(top = 16.dp)
+                    .padding(top = 16.dp, start = 16.dp, end = 16.dp)
             ) {
                 TextFieldQ(
                     hint = "User Name",
                     value = userName,
                     KeyboardOptions(keyboardType = KeyboardType.Text),
                     onValueChange = { userName = it })
-                /*OutlinedTextField(
-                    value = userName,
-                    onValueChange = { userName = it },
-                    label = { Text("User Name", color = MaterialTheme.colorScheme.secondary) },
+            }
+            Row(
+                modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                    .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+            ) {
+                TextFieldQ(
+                    hint = "Email",
+                    value = email,
+                    KeyboardOptions(keyboardType = KeyboardType.Email),
+                    onValueChange = { email = it })
+            }
+            Row(
+                modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                    .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+            ) {
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text("Password", color = MaterialTheme.colorScheme.secondary) },
                     maxLines = 1,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    modifier = Modifier.fillMaxWidth(),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = MaterialTheme.colorScheme.primary,
                         unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
@@ -259,49 +281,26 @@ fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg: String = "") {
                         focusedContainerColor = MaterialTheme.colorScheme.surface,
                         focusedTextColor = MaterialTheme.colorScheme.primary,
                         unfocusedTextColor = MaterialTheme.colorScheme.primary
-                    )
-                )*/
-
-            }
-            Row(
-                modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
-                    .padding(top = 16.dp)
-            ) {
-                TextFieldQ(
-                    hint = "Email",
-                    value = email,
-                    KeyboardOptions(keyboardType = KeyboardType.Email),
-                    onValueChange = { email = it })
-                /*OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
-                    label = { Text("Email") },
-                    maxLines = 1,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
-                )*/
-
-            }
-
-            Row(
-                modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
-                    .padding(top = 16.dp)
-            ) {
-                OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    label = { Text("Password") },
-                    maxLines = 1,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                    ),
+                    trailingIcon = {
+                        val image =
+                            if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+                        val description = if (passwordVisible) "Hide password" else "Show password"
+                        IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                            Icon(imageVector = image, description)
+                        }
+                    },
+                    visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation()
                 )
 
             }
             Row(
                 modifier = Modifier.fillMaxWidth()
-                    .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                    .padding(top = 52.dp, start = 16.dp, end = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                ElevatedButton(onClick = {
+                ButtonQ(onClick = {
                     viewModel.createUser(
                         CreateUserRequest(
                             id = 0,
@@ -313,9 +312,7 @@ fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg: String = "") {
                             isCreator = false
                         )
                     )
-                }, modifier = Modifier.fillMaxWidth()) {
-                    Text("Sigin")
-                }
+                }, text = "Sign In")
             }
         }
     }

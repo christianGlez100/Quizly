@@ -22,27 +22,6 @@ fun QuizlyTheme(
     )
 }
 val QuizlyShapes = Shapes()
-/*private val LightColorScheme = lightColorScheme(
-    primary = QuizlyColors.Primary,
-    secondary = QuizlyColors.Secondary,
-    background = QuizlyColors.BackgroundLight,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = QuizlyColors.TextPrimary,
-    onBackground = QuizlyColors.TextPrimary,
-    onSurface = QuizlyColors.TextPrimary
-)
-
-private val DarkColorScheme = darkColorScheme(
-    primary = QuizlyColors.Primary,
-    secondary = QuizlyColors.Secondary,
-    background = QuizlyColors.BackgroundDark,
-    surface = QuizlyColors.SurfaceDark,
-    onPrimary = Color.White,
-    onSecondary = QuizlyColors.TextOnDark,
-    onBackground = QuizlyColors.TextOnDark,
-    onSurface = QuizlyColors.TextOnDark
-)*/
 
 private val LightColorScheme = lightColorScheme(
     primary = QuizlyColors.PrimaryLight,

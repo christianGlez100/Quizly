@@ -1,21 +1,28 @@
 package com.sesi.quizly.ui.components
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.Modifier
 
 @Composable
-fun TextFieldQ(hint: String, value: String, keyboardOptions: KeyboardOptions, onValueChange: (String) -> Unit){
+fun TextFieldQ(
+    hint: String,
+    value: String,
+    keyboardOptions: KeyboardOptions,
+    onValueChange: (String) -> Unit
+) {
     OutlinedTextField(
         value = value,
-        onValueChange = onValueChange ,
+        onValueChange = onValueChange,
         label = { Text(hint, color = MaterialTheme.colorScheme.secondary) },
         maxLines = 1,
         keyboardOptions = keyboardOptions,
+        modifier = Modifier.fillMaxWidth(),
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = MaterialTheme.colorScheme.primary,
             unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
