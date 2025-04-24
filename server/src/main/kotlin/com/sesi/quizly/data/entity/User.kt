@@ -21,7 +21,7 @@ data class User(
 )
 
 object Users : Table("users") {
-    val id = long("id").autoIncrement()
+    val id = long("user_id").autoIncrement()
     val userName = varchar("user_name", 100)
     val email = varchar("email", 150)
     val password = text("password")

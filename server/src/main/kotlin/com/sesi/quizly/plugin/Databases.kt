@@ -42,7 +42,7 @@ fun Application.configureDatabases() {
     val jdbcUrl = environment.config.property("ktor.database.jdbcURL").getString()
     val user = environment.config.property("ktor.database.user").getString()
     val pass = environment.config.property("ktor.database.password").getString()
-    val db = Database.connect(provideDataSource(jdbcUrl, driverClass, user = "chris", pass = pass))
+    val db = Database.connect(provideDataSource(jdbcUrl, driverClass, user = user, pass = pass))
     transaction(db) {
         SchemaUtils.create(
             Users,

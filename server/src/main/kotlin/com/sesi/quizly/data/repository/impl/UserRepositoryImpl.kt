@@ -1,10 +1,14 @@
 package com.sesi.quizly.data.repository.impl
 
-import com.sesi.quizly.data.entity.User
+
+import com.sesi.quizly.data.entity.UserOauthProvidersTable
 import com.sesi.quizly.data.entity.Users
 import com.sesi.quizly.data.repository.UserRepository
+import com.sesi.quizly.model.User
 import com.sesi.quizly.plugin.dbQuery
 import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 
 class UserRepositoryImpl(): UserRepository {
@@ -23,6 +27,22 @@ class UserRepositoryImpl(): UserRepository {
 
     override suspend fun getUserById(id: Long): User {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun getUserByToken(token: String): User? {
+        val user = dbQuery {
+            (UserOauthProvidersTable innerJoin Users).select(Users.columns).where{
+                UserOauthProvidersTable.accessToken eq token
+                UserOauthProvidersTable.userId eq Users.id
+            }.map {
+                resultRowToUser(it)
+            }.singleOrNull()
+        }
+        return user
+    }
+
+    override suspend fun rollBack(id: Long):Int = dbQuery {
+        Users.deleteWhere { Users.id eq id }
     }
 
     private fun resultRowToUser(row: ResultRow): User {
