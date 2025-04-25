@@ -1,6 +1,7 @@
 package com.sesi.quizly.data.repository
 
 import com.sesi.quizly.model.User
+import com.sesi.quizly.model.response.CreateUserResponse
 
 
 interface UserRepository {
@@ -8,4 +9,5 @@ interface UserRepository {
     suspend fun getUserById(id: Long): User
     suspend fun getUserByToken(token: String): User?
     suspend fun rollBack(id: Long):Int
+    suspend fun login(email: String, password: String): CreateUserResponse?
 }

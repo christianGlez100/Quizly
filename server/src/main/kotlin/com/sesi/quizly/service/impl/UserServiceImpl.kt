@@ -48,5 +48,9 @@ class UserServiceImpl(
         userRepository.rollBack(id)
     }
 
+    override suspend fun login(email: String, password: String): CreateUserResponse? {
+        return userRepository.login(email, password)
+    }
+
 
 }

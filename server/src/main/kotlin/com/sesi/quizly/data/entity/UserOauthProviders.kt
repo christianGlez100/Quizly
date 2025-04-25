@@ -19,7 +19,7 @@ data class UserOauthProviders(
 
 object UserOauthProvidersTable : Table("user_oauth_providers") {
     val id = long("id").autoIncrement()
-    val userId = long("user_id").references(Users.id, onDelete = ReferenceOption.CASCADE)
+    val userId = long("oauth_user_id").references(Users.id, onDelete = ReferenceOption.CASCADE)
     val provider = varchar("provider", 50)
     val providerUserId = varchar("provider_user_id", 255)
     val accessToken = varchar("access_token", 255)
