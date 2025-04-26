@@ -35,12 +35,15 @@ class UserRepositoryImpl(): UserRepository {
 
     override suspend fun getUserByToken(token: String): User? {
         val user = dbQuery {
-            (UserOauthProvidersTable innerJoin Users).select(Users.columns).where{
-                UserOauthProvidersTable.accessToken eq token
-                UserOauthProvidersTable.userId eq Users.id
-            }.map {
-                resultRowToUser(it)
-            }.singleOrNull()
+            (Users innerJoin UserOauthProvidersTable)
+                .select(Users.columns)
+                .where {
+                    UserOauthProvidersTable.accessToken eq token
+                }.andWhere {
+                    UserOauthProvidersTable.userId eq Users.id
+                }.map {
+                    resultRowToUser(it)
+                }.singleOrNull()
         }
         return user
     }

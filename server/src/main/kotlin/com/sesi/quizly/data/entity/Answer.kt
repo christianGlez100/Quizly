@@ -1,17 +1,8 @@
 package com.sesi.quizly.data.entity
 
-import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.Table
 
-@Serializable
-data class Answer(
-    val id: Long,
-    val questionId: Long,
-    val answerText: String,
-    val imageUrl: String,
-    val valueScore: Int
-)
 
 object Answers : Table("answers") {
     val id = long("id").autoIncrement()
