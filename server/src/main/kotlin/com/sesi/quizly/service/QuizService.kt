@@ -8,4 +8,6 @@ interface QuizService {
     suspend fun getQuizById(id: Long): Quiz?
     suspend fun deleteQuiz(id: Long): Boolean
     suspend fun addQuestion(idQuiz: Long, questions: List<Question>)
+    suspend fun getQuizzesByUserId(userId: Long): List<Quiz>
+
 }

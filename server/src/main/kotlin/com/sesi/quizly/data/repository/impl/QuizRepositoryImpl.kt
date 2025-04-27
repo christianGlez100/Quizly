@@ -31,6 +31,28 @@ class QuizRepositoryImpl: QuizRepository {
         TODO("Not yet implemented")
     }
 
+    override suspend fun getQuizzesByUserId(userId: Long): List<Quiz> {
+        val quizzes = dbQuery {
+            Quizzes.select(
+                listOf(
+                    Quizzes.id,
+                    Quizzes.userId,
+                    Quizzes.title,
+                    Quizzes.description,
+                    Quizzes.isPublic,
+                    Quizzes.isPremium,
+                    Quizzes.price,
+                    Quizzes.coverImage,
+                )
+            ).where{
+                Quizzes.userId eq userId
+            }.map {
+                resultRowToQuiz(it)
+            }
+        }
+        return quizzes
+    }
+
     override suspend fun deleteQuiz(id: Long): Boolean {
         TODO("Not yet implemented")
     }
@@ -55,6 +77,10 @@ class QuizRepositoryImpl: QuizRepository {
                 }
             }
         }
+    }
+
+    private fun resultRowsToQuizzes(rows: List<ResultRow>): List<Quiz> {
+        return rows.map { resultRowToQuiz(it) }
     }
 
     private fun resultRowToQuiz(row: ResultRow): Quiz {
