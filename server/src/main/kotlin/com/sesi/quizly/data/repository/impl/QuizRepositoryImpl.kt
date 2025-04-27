@@ -7,11 +7,13 @@ import com.sesi.quizly.data.repository.QuizRepository
 import com.sesi.quizly.model.Answer
 import com.sesi.quizly.model.Question
 import com.sesi.quizly.model.Quiz
+import com.sesi.quizly.model.QuizPagination
 import com.sesi.quizly.plugin.dbQuery
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.selectAll
 
 class QuizRepositoryImpl: QuizRepository {
 
@@ -26,6 +28,31 @@ class QuizRepositoryImpl: QuizRepository {
             it[coverImage] = quiz.coverImage
         }
         insertQuiz.resultedValues?.singleOrNull()?.let(::resultRowToQuiz) ?: error("No fue posible crear el quiz")
+    }
+
+    override suspend fun getAllQuizzes(page: Int, pageSize: Int): QuizPagination {
+        val offset = (page - 1) * pageSize
+        var totalPages = 0
+        var totalQuizzes = 0
+        val quizzes = dbQuery {
+            totalQuizzes = Quizzes.selectAll().count().toInt()
+            totalPages = (totalQuizzes + pageSize - 1) / pageSize
+            Quizzes.select(
+                listOf(
+                    Quizzes.id,
+                    Quizzes.userId,
+                    Quizzes.title,
+                    Quizzes.description,
+                    Quizzes.isPublic,
+                    Quizzes.isPremium,
+                    Quizzes.price,
+                    Quizzes.coverImage,
+                )
+            ).limit(pageSize).offset(offset.toLong()).map {
+                resultRowToQuiz(it)
+            }
+        }
+        return QuizPagination(quizzes, page, totalPages, totalQuizzes)
     }
 
     override suspend fun getQuizById(id: Long): List<Question> {

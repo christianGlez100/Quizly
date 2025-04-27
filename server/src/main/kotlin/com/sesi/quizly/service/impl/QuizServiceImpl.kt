@@ -3,6 +3,7 @@ package com.sesi.quizly.service.impl
 import com.sesi.quizly.data.repository.QuizRepository
 import com.sesi.quizly.model.Question
 import com.sesi.quizly.model.Quiz
+import com.sesi.quizly.model.QuizPagination
 import com.sesi.quizly.service.QuizService
 
 class QuizServiceImpl(private val quizRepository: QuizRepository) : QuizService {
@@ -21,6 +22,16 @@ class QuizServiceImpl(private val quizRepository: QuizRepository) : QuizService 
             return null
         }
 
+    }
+
+    override suspend fun getAllQuizzes(page: Int, pageSize: Int): QuizPagination {
+        val result: QuizPagination?
+        try {
+            result = quizRepository.getAllQuizzes(page, pageSize)
+        } catch (e: Exception) {
+            throw e
+        }
+        return result
     }
 
     override suspend fun getQuizById(id: Long): List<Question>? {

@@ -1,5 +1,6 @@
 package com.sesi.quizly.routes
 
+import com.sesi.quizly.getPlatform
 import com.sesi.quizly.model.Quiz
 import com.sesi.quizly.service.QuizService
 import com.sesi.quizly.service.UserService
@@ -14,6 +15,19 @@ import io.ktor.server.routing.get
 
 fun Routing.quizRoute(quizService: QuizService, userService: UserService) {
     route("/quiz") {
+        get("/quizzes") {
+            val page = call.request.queryParameters["page"]?.toInt() ?: 1
+            val pageSize = call.request.queryParameters["pageSize"]?.toInt() ?: 10
+            try {
+                val result = quizService.getAllQuizzes(page, pageSize)
+                result.let {
+                    call.respond(HttpStatusCode.OK, it)
+                }
+            } catch (e: Exception) {
+                call.respond(HttpStatusCode.InternalServerError, e.message.toString())
+            }
+        }
+
         authenticate("auth-bearer") {
             post {
                 val quiz = call.receive<Quiz>()
@@ -41,6 +55,7 @@ fun Routing.quizRoute(quizService: QuizService, userService: UserService) {
                     call.respond(HttpStatusCode.InternalServerError, e.message.toString())
                 }
             }
+
             get("/{id}") {
                 val id = call.parameters["id"]!!.toLong()
                 try {
