@@ -41,6 +41,17 @@ fun Routing.quizRoute(quizService: QuizService, userService: UserService) {
                     call.respond(HttpStatusCode.InternalServerError, e.message.toString())
                 }
             }
+            get("/{id}") {
+                val id = call.parameters["id"]!!.toLong()
+                try {
+                    val result = quizService.getQuizById(id)
+                    result.let {
+                        call.respond(HttpStatusCode.OK, it!!)
+                    }
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, e.message.toString())
+                }
+            }
         }
     }
 }

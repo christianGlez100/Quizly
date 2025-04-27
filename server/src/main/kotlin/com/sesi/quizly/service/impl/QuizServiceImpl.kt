@@ -23,8 +23,14 @@ class QuizServiceImpl(private val quizRepository: QuizRepository) : QuizService 
 
     }
 
-    override suspend fun getQuizById(id: Long): Quiz? {
-        TODO("Not yet implemented")
+    override suspend fun getQuizById(id: Long): List<Question>? {
+        var result:List<Question>? = null
+        try {
+            result = quizRepository.getQuizById(id)
+        } catch (e: Exception) {
+            throw e
+        }
+        return result
     }
 
     override suspend fun deleteQuiz(id: Long): Boolean {

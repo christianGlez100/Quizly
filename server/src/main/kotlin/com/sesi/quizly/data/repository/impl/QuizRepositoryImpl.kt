@@ -4,6 +4,7 @@ import com.sesi.quizly.data.entity.Answers
 import com.sesi.quizly.data.entity.Questions
 import com.sesi.quizly.data.entity.Quizzes
 import com.sesi.quizly.data.repository.QuizRepository
+import com.sesi.quizly.model.Answer
 import com.sesi.quizly.model.Question
 import com.sesi.quizly.model.Quiz
 import com.sesi.quizly.plugin.dbQuery
@@ -27,9 +28,36 @@ class QuizRepositoryImpl: QuizRepository {
         insertQuiz.resultedValues?.singleOrNull()?.let(::resultRowToQuiz) ?: error("No fue posible crear el quiz")
     }
 
-    override suspend fun getQuizById(id: Long): Quizzes? {
-        TODO("Not yet implemented")
+    override suspend fun getQuizById(id: Long): List<Question> {
+        val question = dbQuery {
+            Questions.select(
+                listOf(
+                    Questions.id,
+                    Questions.questionText
+                )
+            ).where {
+                Questions.quizId eq id
+            }.map { questionRow ->
+                val answer = dbQuery {
+                    Answers.select(
+                        listOf(
+                            Answers.id,
+                            Answers.answerText,
+                            Answers.imageUrl,
+                            Answers.valueScore
+                        )
+                    ).where {
+                        Answers.questionId eq questionRow[Questions.id]
+                    }.map { answerRow ->
+                        resultRowToAnswer(answerRow)
+                    }
+                }
+                resultRowToQuestionAnswers(questionRow, answer)
+            }
+        }
+        return question
     }
+
 
     override suspend fun getQuizzesByUserId(userId: Long): List<Quiz> {
         val quizzes = dbQuery {
@@ -99,10 +127,23 @@ class QuizRepositoryImpl: QuizRepository {
     private fun resultRowToQuestion(row: ResultRow): Question {
         return Question(
             id = row[Questions.id],
-            questionText = row[Questions.questionText],
-            answers = emptyList()
+            questionText = row[Questions.questionText]
         )
     }
 
-
+    private fun resultRowToAnswer(it: ResultRow): Answer {
+        return Answer(
+            id = it[Answers.id],
+            answerText = it[Answers.answerText],
+            imageUrl = it[Answers.imageUrl],
+            valueScore = it[Answers.valueScore]
+        )
+    }
+    private fun resultRowToQuestionAnswers(questionRow: ResultRow, answers: List<Answer>): Question {
+        return Question(
+            id = questionRow[Questions.id],
+            questionText = questionRow[Questions.questionText],
+            answers = answers
+        )
+    }
 }
