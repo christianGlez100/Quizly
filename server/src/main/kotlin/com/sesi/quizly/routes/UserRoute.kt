@@ -20,7 +20,7 @@ fun Routing.userRoute(userService: UserService) {
             try {
                 val result = userService.login(login.email, login.password)
                 result.let {
-                    call.respond(HttpStatusCode.Created, it!!)
+                    call.respond(HttpStatusCode.OK, it!!)
                 }
             } catch (e:Exception) {
                 call.respond(HttpStatusCode.InternalServerError, e.message.toString())
@@ -39,8 +39,17 @@ fun Routing.userRoute(userService: UserService) {
         }
 
         authenticate("auth-bearer") {
-            get {
-
+            get("/profile") {
+                val token = call.request.headers["Authorization"]!!.substringAfter("Bearer ")
+                try {
+                    val user = userService.validateToken(token)
+                    val result = userService.getProfile(user?.id!!)
+                    result.let {
+                        call.respond(HttpStatusCode.OK, it!!)
+                    }
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.InternalServerError, e.message.toString())
+                }
             }
         }
     }

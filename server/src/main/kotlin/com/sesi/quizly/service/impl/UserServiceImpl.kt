@@ -40,6 +40,10 @@ class UserServiceImpl(
         }
     }
 
+    override suspend fun getProfile(userId: Long): User? {
+        return userRepository.getProfile(userId)
+    }
+
     override suspend fun validateToken(token: String): User? {
         return userRepository.getUserByToken(token)
     }

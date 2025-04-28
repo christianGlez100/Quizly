@@ -10,7 +10,6 @@ import com.sesi.quizly.model.response.UserToken
 import com.sesi.quizly.plugin.dbQuery
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
@@ -27,6 +26,17 @@ class UserRepositoryImpl(): UserRepository {
             it[isCreator] = user.isCreator
         }
         insertUser.resultedValues?.singleOrNull()?.let(::resultRowToUser) ?: error("No fue posible crear el usuario")
+    }
+
+    override suspend fun getProfile(userId: Long): User? {
+        val user = dbQuery {
+            Users.select(Users.columns).where {
+                Users.id eq userId
+            }.map {
+                resultRowToUser(it)
+            }.singleOrNull()
+        }
+        return user
     }
 
     override suspend fun getUserById(id: Long): User {
