@@ -5,12 +5,14 @@ import com.sesi.quizly.data.repository.UserRepository
 import com.sesi.quizly.model.User
 import com.sesi.quizly.model.response.CreateUserResponse
 import com.sesi.quizly.model.response.UserToken
+import com.sesi.quizly.service.TokenService
 import com.sesi.quizly.service.UserOauthService
 import com.sesi.quizly.service.UserService
 
 class UserServiceImpl(
     private val userRepository: UserRepository,
-    private val userOauthService: UserOauthService
+    private val userOauthService: UserOauthService,
+    private val tokenService: TokenService
 ) : UserService {
     override suspend fun createUser(user: User): CreateUserResponse? {
         var userIdResult:Long? = null
@@ -53,6 +55,10 @@ class UserServiceImpl(
     }
 
     override suspend fun login(email: String, password: String): CreateUserResponse? {
+        val user = userRepository.login(email, password)
+        val accessToken = tokenService.generateToken(user?.id!!, user.userName)
+        val refreshToken = tokenService.generateRefreshToken()
+        val updateToken = userOauthService.updateUserToken(user.id, accessToken, refreshToken)
         return userRepository.login(email, password)
     }
 

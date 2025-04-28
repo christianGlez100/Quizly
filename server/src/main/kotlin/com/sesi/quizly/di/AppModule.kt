@@ -23,6 +23,6 @@ fun appModule() = module {
     single<UserOauthRepository> { UserOauthRepositoryImpl() }
     single<TokenService> { TokenServiceImpl() }
     single<UserOauthService> { UserOauthServiceImpl(get(), get()) }
-    single<UserService> { UserServiceImpl(get(), get())}
+    single<UserService> { UserServiceImpl(get(), get(), get())}
     single<QuizService> { QuizServiceImpl(get()) }
 }

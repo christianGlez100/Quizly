@@ -4,7 +4,7 @@ import com.sesi.quizly.model.User
 
 
 interface TokenService {
-    fun generateToken(user: User): String
+    fun generateToken(userId: Long, userName: String): String
     fun validateToken(token: String): Boolean
     fun generateRefreshToken(): String
 }

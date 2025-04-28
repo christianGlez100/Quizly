@@ -3,7 +3,6 @@ package com.sesi.quizly.service.impl
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
-import com.sesi.quizly.model.User
 import com.sesi.quizly.service.TokenService
 import java.util.Date
 import java.util.UUID
@@ -21,12 +20,12 @@ class TokenServiceImpl(): TokenService {
         .withIssuer(issuer)
         .build()
 
-    override fun generateToken(user: User): String {
+    override fun generateToken(userId: Long, userName: String): String {
         return JWT.create()
             .withAudience(audience)
             .withIssuer(issuer)
-            .withClaim("userId", user.id)
-            .withClaim("userName", user.userName)
+            .withClaim("userId", userId)
+            .withClaim("userName", userName)
             .withExpiresAt(Date(System.currentTimeMillis() + validityInMs))
             .sign(algorithm)
     }

@@ -1,11 +1,13 @@
 package com.sesi.quizly.data.repository.impl
 
 import com.sesi.quizly.data.entity.UserOauthProvidersTable
+import com.sesi.quizly.data.entity.UserOauthProvidersTable.userId
 import com.sesi.quizly.data.repository.UserOauthRepository
 import com.sesi.quizly.model.UserOauth
 import com.sesi.quizly.plugin.dbQuery
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.update
 
 class UserOauthRepositoryImpl(): UserOauthRepository {
     override suspend fun addUserOauth(userOauth: UserOauth): UserOauth = dbQuery {
@@ -17,6 +19,15 @@ class UserOauthRepositoryImpl(): UserOauthRepository {
             it[refreshToken] = userOauth.refreshToken
         }
         insertUser.resultedValues?.singleOrNull()?.let(::resultRowToUserToken) ?: error("No fue posible crear el token")
+    }
+
+    override suspend fun updateUserOauth(userOauth: UserOauth) = dbQuery {
+        val updateUser = UserOauthProvidersTable.update({
+            userId eq userOauth.userId
+        }){
+            it[accessToken] = userOauth.accessToken
+            it[refreshToken] = userOauth.refreshToken
+        }
     }
 
     private fun resultRowToUserToken(row: ResultRow): UserOauth {

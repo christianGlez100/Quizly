@@ -12,15 +12,19 @@ class UserOauthServiceImpl(
 ) : UserOauthService {
 
     override suspend fun createUserToken(user: User): UserOauth {
-        val accessToken = tokenService.generateToken(user)
+        val accessToken = tokenService.generateToken(user.id!!, user.userName)
         val refreshToken = tokenService.generateRefreshToken()
         val userOauth = UserOauth(
             accessToken = accessToken,
             refreshToken = refreshToken,
-            userId = user.id!!,
+            userId = user.id,
             provider = "local"
         )
         return userOauthRepository.addUserOauth(userOauth)
+    }
+
+    override suspend fun updateUserToken(userId: Long, accessToken: String, refreshToken: String) {
+        userOauthRepository.updateUserOauth(UserOauth(accessToken = accessToken, refreshToken = refreshToken, userId = userId, provider = ""))
     }
 
 }
