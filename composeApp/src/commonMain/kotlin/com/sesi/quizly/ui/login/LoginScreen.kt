@@ -39,6 +39,13 @@ import com.sesi.quizly.navigation.Routes
 import com.sesi.quizly.ui.components.ButtonQ
 import com.sesi.quizly.ui.components.TextFieldQ
 import kotlinx.coroutines.flow.collectLatest
+import org.jetbrains.compose.resources.stringResource
+import quizly.composeapp.generated.resources.Res
+import quizly.composeapp.generated.resources.create_account
+import quizly.composeapp.generated.resources.email
+import quizly.composeapp.generated.resources.hide_pass
+import quizly.composeapp.generated.resources.password
+import quizly.composeapp.generated.resources.show_pass
 import shared.preference.PreferenceManager
 
 @Composable
@@ -76,7 +83,7 @@ fun bodyLogIn(navController: NavHostController) {
                     .padding(top = 16.dp, start = 16.dp, end = 16.dp)
             ) {
                 TextFieldQ(
-                    hint = "Email",
+                    hint = stringResource(Res.string.email),
                     value = email,
                     KeyboardOptions(keyboardType = KeyboardType.Email),
                     onValueChange = { email = it })
@@ -88,7 +95,7 @@ fun bodyLogIn(navController: NavHostController) {
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = { androidx.compose.material.Text("Password", color = MaterialTheme.colorScheme.secondary) },
+                    label = { androidx.compose.material.Text(stringResource(Res.string.password), color = MaterialTheme.colorScheme.secondary) },
                     maxLines = 1,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     modifier = Modifier.fillMaxWidth(),
@@ -106,7 +113,7 @@ fun bodyLogIn(navController: NavHostController) {
                     trailingIcon = {
                         val image =
                             if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
-                        val description = if (passwordVisible) "Hide password" else "Show password"
+                        val description = if (passwordVisible) stringResource(Res.string.hide_pass) else stringResource(Res.string.show_pass)
                         IconButton(onClick = { passwordVisible = !passwordVisible }) {
                             Icon(imageVector = image, description)
                         }
@@ -131,7 +138,7 @@ fun bodyLogIn(navController: NavHostController) {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Crear una cuenta",
+                    text = stringResource(Res.string.create_account),
                     color = MaterialTheme.colorScheme.secondary
                 )
             }

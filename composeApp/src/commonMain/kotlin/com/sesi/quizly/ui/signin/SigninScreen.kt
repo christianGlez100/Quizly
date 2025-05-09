@@ -61,9 +61,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import quizly.composeapp.generated.resources.Res
+import quizly.composeapp.generated.resources.email
+import quizly.composeapp.generated.resources.hide_pass
 import quizly.composeapp.generated.resources.ic_person_circle
+import quizly.composeapp.generated.resources.loading
+import quizly.composeapp.generated.resources.password
+import quizly.composeapp.generated.resources.show_pass
+import quizly.composeapp.generated.resources.sign_in
+import quizly.composeapp.generated.resources.user_name
 import shared.PermissionCallback
 import shared.PermissionStatus
 import shared.PermissionType
@@ -85,7 +93,7 @@ fun SignInScreen(
 
         is SignInState.Loading -> {
             Box(
-                modifier = Modifier.fillMaxSize().testTag("Loading"),
+                modifier = Modifier.fillMaxSize().testTag(stringResource(Res.string.loading)),
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator()
@@ -254,7 +262,7 @@ fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg: String = "") {
                     .padding(top = 16.dp, start = 16.dp, end = 16.dp)
             ) {
                 TextFieldQ(
-                    hint = "User Name",
+                    hint = stringResource(Res.string.user_name),
                     value = userName,
                     KeyboardOptions(keyboardType = KeyboardType.Text),
                     onValueChange = { userName = it })
@@ -264,7 +272,7 @@ fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg: String = "") {
                     .padding(top = 16.dp, start = 16.dp, end = 16.dp)
             ) {
                 TextFieldQ(
-                    hint = "Email",
+                    hint = stringResource(Res.string.email),
                     value = email,
                     KeyboardOptions(keyboardType = KeyboardType.Email),
                     onValueChange = { email = it })
@@ -276,7 +284,7 @@ fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg: String = "") {
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = { Text("Password", color = MaterialTheme.colorScheme.secondary) },
+                    label = { Text(stringResource(Res.string.password), color = MaterialTheme.colorScheme.secondary) },
                     maxLines = 1,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     modifier = Modifier.fillMaxWidth(),
@@ -294,7 +302,7 @@ fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg: String = "") {
                     trailingIcon = {
                         val image =
                             if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
-                        val description = if (passwordVisible) "Hide password" else "Show password"
+                        val description = if (passwordVisible) stringResource(Res.string.hide_pass) else stringResource(Res.string.show_pass)
                         IconButton(onClick = { passwordVisible = !passwordVisible }) {
                             Icon(imageVector = image, description)
                         }
@@ -321,7 +329,7 @@ fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg: String = "") {
                             isCreator = false
                         )
                     )
-                }, text = "Sign In")
+                }, text = stringResource(Res.string.sign_in))
             }
         }
     }

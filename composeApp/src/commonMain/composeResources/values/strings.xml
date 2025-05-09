@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Quizly</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="hide_pass">Hide password</string>
+    <string name="show_pass">Show password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="create_account">Crear una cuenta</string>
+    <string name="loading">Cargando..</string>
+    <string name="user_name">User Name</string>
 
 </resources>
