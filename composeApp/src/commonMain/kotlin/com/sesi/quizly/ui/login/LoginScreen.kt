@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -30,32 +31,41 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.sesi.quizly.data.client.request.LogInRequest
 import com.sesi.quizly.navigation.Routes
 import com.sesi.quizly.ui.components.ButtonQ
 import com.sesi.quizly.ui.components.TextFieldQ
+import com.sesi.quizly.ui.signin.viewmodel.SignInState
+import com.sesi.quizly.ui.signin.viewmodel.UserViewModel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 import quizly.composeapp.generated.resources.Res
 import quizly.composeapp.generated.resources.create_account
 import quizly.composeapp.generated.resources.email
 import quizly.composeapp.generated.resources.hide_pass
+import quizly.composeapp.generated.resources.loading
 import quizly.composeapp.generated.resources.password
 import quizly.composeapp.generated.resources.show_pass
+import quizly.composeapp.generated.resources.sign_in
 import shared.preference.PreferenceManager
 
 @Composable
 fun LogInScreen(
+    viewModel: UserViewModel = koinViewModel(),
     preferenceManager: PreferenceManager,
     snackbarHostState: SnackbarHostState,
     navController: NavHostController
 ) {
     var userToken by remember { mutableStateOf<String?>(null) }
-
     LaunchedEffect(Unit) {
         preferenceManager.getUserToken().collectLatest {
             userToken = it
@@ -64,17 +74,46 @@ fun LogInScreen(
     if (userToken != null) {
         navController.navigate(Routes.Profile.route)
     } else {
-        bodyLogIn(navController)
+        val scope = rememberCoroutineScope()
+        val state: SignInState by viewModel.state.collectAsStateWithLifecycle()
+        when (state) {
+            is SignInState.Error -> {
+                val message = (state as SignInState.Error).error
+                scope.launch {
+                    snackbarHostState.showSnackbar(message)
+                }
+                viewModel.restoreState()
+            }
+
+            is SignInState.FirstState -> {
+                bodyLogIn(navController, viewModel)
+            }
+
+            is SignInState.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize().testTag(stringResource(Res.string.loading)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+
+            is SignInState.Success -> {
+                scope.launch {
+                    preferenceManager.saveUserToken((state as SignInState.Success).user.tokenData?.accessToken!!)
+                    navController.navigate(Routes.Profile.route)
+                }
+            }
+        }
     }
 }
 
 @Composable
-fun bodyLogIn(navController: NavHostController) {
+fun bodyLogIn(navController: NavHostController, viewModel: UserViewModel) {
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
+    var isButtonEnabled by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)){
         Column(modifier = Modifier.fillMaxSize()) {
@@ -86,7 +125,10 @@ fun bodyLogIn(navController: NavHostController) {
                     hint = stringResource(Res.string.email),
                     value = email,
                     KeyboardOptions(keyboardType = KeyboardType.Email),
-                    onValueChange = { email = it })
+                    onValueChange = {
+                        email = it
+                        isButtonEnabled = validateFields(email, password)
+                    })
             }
             Row(
                 modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
@@ -94,7 +136,10 @@ fun bodyLogIn(navController: NavHostController) {
             ) {
                 OutlinedTextField(
                     value = password,
-                    onValueChange = { password = it },
+                    onValueChange = {
+                        password = it
+                        isButtonEnabled = validateFields(email, password)
+                    },
                     label = { androidx.compose.material.Text(stringResource(Res.string.password), color = MaterialTheme.colorScheme.secondary) },
                     maxLines = 1,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -128,9 +173,12 @@ fun bodyLogIn(navController: NavHostController) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                ButtonQ(onClick = {
-
-                }, text = "Sign In")
+                ButtonQ(
+                    onClick = {
+                        viewModel.logIn(request = LogInRequest(email, password))
+                    }, text = stringResource(Res.string.sign_in),
+                    isEnabled = isButtonEnabled
+                )
             }
             Row(
                 modifier = Modifier.fillMaxWidth().padding(top = 16.dp, start = 16.dp, end = 16.dp).clickable { navController.navigate(Routes.SignIn.route) },
@@ -144,6 +192,10 @@ fun bodyLogIn(navController: NavHostController) {
             }
         }
     }
+}
+
+private fun validateFields(email: String, password: String): Boolean {
+    return email.isNotEmpty() && password.isNotEmpty()
 }
 
 @Composable

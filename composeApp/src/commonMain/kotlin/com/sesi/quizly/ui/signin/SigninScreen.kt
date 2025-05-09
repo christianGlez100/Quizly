@@ -12,16 +12,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicSecureTextField
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -56,7 +52,7 @@ import com.sesi.quizly.ui.components.ButtonQ
 import com.sesi.quizly.ui.components.ImageSourceOptionDialog
 import com.sesi.quizly.ui.components.TextFieldQ
 import com.sesi.quizly.ui.signin.viewmodel.SignInState
-import com.sesi.quizly.ui.signin.viewmodel.SignInViewModel
+import com.sesi.quizly.ui.signin.viewmodel.UserViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -82,7 +78,7 @@ import shared.rememberGalleryManager
 
 @Composable
 fun SignInScreen(
-    viewModel: SignInViewModel = koinViewModel(),
+    viewModel: UserViewModel = koinViewModel(),
     preferenceManager: PreferenceManager?,
     snackbarHostState: SnackbarHostState?,
     navController: NavHostController?
@@ -106,7 +102,7 @@ fun SignInScreen(
 
         is SignInState.Success -> {
             LaunchedEffect(Unit) {
-                preferenceManager?.saveUserToken((state as SignInState.Success).user.tokenData.accessToken)
+                preferenceManager?.saveUserToken((state as SignInState.Success).user.tokenData?.accessToken!!)
             }
             navController?.navigate(Routes.LogIn.route)
         }
@@ -123,12 +119,13 @@ fun SignInScreen(
 }
 
 @Composable
-fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg: String = "") {
+fun bodySignIn(viewModel: UserViewModel, isError: Boolean, msg: String = "") {
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
     var userName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var imgUser by remember { mutableStateOf("") }
+    var isButtonEnabled by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     // camera n gallery
@@ -265,7 +262,10 @@ fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg: String = "") {
                     hint = stringResource(Res.string.user_name),
                     value = userName,
                     KeyboardOptions(keyboardType = KeyboardType.Text),
-                    onValueChange = { userName = it })
+                    onValueChange = {
+                        userName = it
+                        isButtonEnabled = validateFields(userName, email, password)
+                    })
             }
             Row(
                 modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
@@ -275,7 +275,10 @@ fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg: String = "") {
                     hint = stringResource(Res.string.email),
                     value = email,
                     KeyboardOptions(keyboardType = KeyboardType.Email),
-                    onValueChange = { email = it })
+                    onValueChange = {
+                        email = it
+                        isButtonEnabled = validateFields(userName, email, password)
+                    })
             }
             Row(
                 modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
@@ -283,7 +286,10 @@ fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg: String = "") {
             ) {
                 OutlinedTextField(
                     value = password,
-                    onValueChange = { password = it },
+                    onValueChange = {
+                        password = it
+                        isButtonEnabled = validateFields(userName, email, password)
+                    },
                     label = { Text(stringResource(Res.string.password), color = MaterialTheme.colorScheme.secondary) },
                     maxLines = 1,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -317,21 +323,27 @@ fun bodySignIn(viewModel: SignInViewModel, isError: Boolean, msg: String = "") {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                ButtonQ(onClick = {
-                    viewModel.createUser(
-                        CreateUserRequest(
-                            id = 0,
-                            userName = userName,
-                            email = email,
-                            password = password,
-                            userImage = imgUser,
-                            userBio = "",
-                            isCreator = false
+                ButtonQ(
+                    onClick = {
+                        viewModel.createUser(
+                            CreateUserRequest(
+                                id = 0,
+                                userName = userName,
+                                email = email,
+                                password = password,
+                                userImage = imgUser,
+                                userBio = "",
+                                isCreator = false
+                            )
                         )
-                    )
-                }, text = stringResource(Res.string.sign_in))
+                    }, text = stringResource(Res.string.sign_in),
+                    isEnabled = isButtonEnabled
+                )
             }
         }
     }
+}
 
+private fun validateFields(userName: String, email: String, password: String): Boolean {
+    return userName.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()
 }

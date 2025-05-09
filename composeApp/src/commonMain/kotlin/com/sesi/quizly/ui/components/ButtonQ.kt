@@ -13,14 +13,15 @@ import androidx.compose.ui.unit.dp
 import com.sesi.quizly.data.client.request.CreateUserRequest
 
 @Composable
-fun ButtonQ(onClick: () -> Unit, text: String) {
+fun ButtonQ(onClick: () -> Unit, text: String, isEnabled: Boolean = false) {
     ElevatedButton(
         onClick = onClick, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.elevatedButtonColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary,
             disabledContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
             disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-        )
+        ),
+        enabled = isEnabled
     ) {
         Text(
             text,

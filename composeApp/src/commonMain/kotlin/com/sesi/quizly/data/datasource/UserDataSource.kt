@@ -2,6 +2,9 @@ package com.sesi.quizly.data.datasource
 
 import com.sesi.quizly.data.client.request.CreateUserRequest
 import com.sesi.quizly.data.client.response.CreateUserResponse
+import com.sesi.quizly.data.client.request.LogInRequest
+import com.sesi.quizly.data.client.response.BaseResponse
+import com.sesi.quizly.data.client.response.SuccessResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.post
@@ -26,14 +29,35 @@ class UserDataSource(
                 contentType(ContentType.Application.Json)
                 setBody(request)
             }
+            val resp = clientResponse.body<SuccessResponse<CreateUserResponse>>()
             if (clientResponse.status == HttpStatusCode.Created) {
-                handler(null, clientResponse.body())
+                handler(null, resp.data)
             } else {
-                handler(clientResponse.bodyAsText(), null)
+                handler("Ocurrio un error", null)
+            }
+        } catch (e: Exception) {
+            handler("Ocurrio un error", null)
+        }
+
+    }
+
+    suspend fun logIn(
+        request: LogInRequest,
+        handler: (error: String?, response: CreateUserResponse?) -> Unit
+    ) {
+        try {
+            val clientResponse = ktorClient.post("${urlBase}/user/login") {
+                contentType(ContentType.Application.Json)
+                setBody(request)
+            }
+            val resp = clientResponse.body<SuccessResponse<CreateUserResponse>>()
+            if (clientResponse.status == HttpStatusCode.OK && resp.status == "success") {
+                handler(null, resp.data)
+            } else {
+                handler(resp.message, null)
             }
         } catch (e: Exception) {
             handler(e.message, null)
         }
-
     }
 }
