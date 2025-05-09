@@ -51,7 +51,7 @@ fun Routing.userRoute(userService: UserService) {
                     val user = userService.validateToken(token)
                     val result = userService.getProfile(user?.id!!)
                     result.let {
-                        call.respond(HttpStatusCode.OK, it!!)
+                        call.respond(HttpStatusCode.OK, SuccessResponse(data = it!!, message = "Success", status = "success"))
                     }
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, e.message.toString())
