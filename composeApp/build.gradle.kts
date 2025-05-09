@@ -67,7 +67,14 @@ kotlin {
             //Ktor Client
             implementation(libs.ktor.client.okhttp)
             implementation(libs.ktor.client.android)
+
+            //DataStore PReference
+            implementation(libs.datastore.preference)
+            api(libs.datastore.preference.core)
+            implementation(libs.datastore)
+
         }
+
         commonMain.dependencies {
             implementation(compose.runtime)
             api(compose.foundation)
@@ -103,6 +110,14 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.logging)
+
+            //Preference
+            implementation(libs.datastore.preference)
+            implementation(libs.datastore)
+
+            //Preferences iOS
+            implementation(libs.kmm.settings.noarg)
+            implementation(libs.kmm.settings)
 
             implementation(libs.kotlinx.coroutines.core)
 

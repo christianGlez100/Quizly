@@ -29,6 +29,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,7 +48,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.sesi.quizly.data.client.request.CreateUserRequest
+import com.sesi.quizly.navigation.Routes
 import com.sesi.quizly.ui.components.AlertMessageDialog
 import com.sesi.quizly.ui.components.ButtonQ
 import com.sesi.quizly.ui.components.ImageSourceOptionDialog
@@ -65,13 +68,16 @@ import shared.PermissionCallback
 import shared.PermissionStatus
 import shared.PermissionType
 import shared.createPermissionsManager
+import shared.preference.PreferenceManager
 import shared.rememberCameraManager
 import shared.rememberGalleryManager
 
 @Composable
 fun SignInScreen(
     viewModel: SignInViewModel = koinViewModel(),
-    snackbarHostState: SnackbarHostState
+    preferenceManager: PreferenceManager?,
+    snackbarHostState: SnackbarHostState?,
+    navController: NavHostController?
 ) {
     val scope = rememberCoroutineScope()
     val state: SignInState by viewModel.state.collectAsStateWithLifecycle()
@@ -91,13 +97,16 @@ fun SignInScreen(
         }
 
         is SignInState.Success -> {
-
+            LaunchedEffect(Unit) {
+                preferenceManager?.saveUserToken((state as SignInState.Success).user.tokenData.accessToken)
+            }
+            navController?.navigate(Routes.LogIn.route)
         }
 
         is SignInState.Error -> {
             val message = (state as SignInState.Error).error
             scope.launch {
-                snackbarHostState.showSnackbar(message)
+                snackbarHostState?.showSnackbar(message)
             }
             viewModel.restoreState()
         }

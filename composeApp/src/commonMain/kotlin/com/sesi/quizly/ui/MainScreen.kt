@@ -24,7 +24,13 @@ import com.sesi.quizly.navigation.Routes
 import com.sesi.quizly.navigation.navigationItemsLists
 import com.sesi.quizly.ui.components.BottomNavigationBar
 import com.sesi.quizly.ui.components.NavigationItem
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import shared.preference.PreferenceManager
 
+class MainScreenModel : KoinComponent {
+    val preferences: PreferenceManager by inject()
+}
 @Composable
 fun MainScreen() {
     val rootNavController = rememberNavController()
@@ -51,6 +57,9 @@ fun MainScreen() {
         }
     }
     val snackbarHostState = remember { SnackbarHostState() }
+
+    val mainScreenModel: MainScreenModel = remember { MainScreenModel() }
+    val preferenceManager = mainScreenModel.preferences
 
     Row {
         AnimatedVisibility(
@@ -94,6 +103,7 @@ fun MainScreen() {
         ) { innerPadding ->
             MainNavigation(
                 rootNavController = rootNavController,
+                preferenceManager = preferenceManager,
                 snackbarHostState = snackbarHostState
             )
         }

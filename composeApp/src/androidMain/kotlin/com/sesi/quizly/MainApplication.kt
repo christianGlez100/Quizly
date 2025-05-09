@@ -6,6 +6,7 @@ import io.ktor.client.engine.android.Android
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import shared.di.platformModule
 
 
 class MainApplication: Application() {
@@ -14,7 +15,7 @@ class MainApplication: Application() {
         startKoin {
             androidContext(this@MainApplication)
             androidLogger()
-            modules(appModule(Android.create()))
+            modules(appModule(Android.create()), platformModule())
         }
     }
 }

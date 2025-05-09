@@ -3,6 +3,7 @@ package com.sesi.quizly.ui.signin.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sesi.quizly.data.client.request.CreateUserRequest
+import com.sesi.quizly.data.client.response.CreateUserResponse
 import com.sesi.quizly.data.repository.UserAction
 import com.sesi.quizly.data.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +13,7 @@ import kotlinx.coroutines.launch
 sealed class SignInState {
     object Loading : SignInState()
     object FirstState : SignInState()
-    data class Success(val isUserCreated: Boolean) : SignInState()
+    data class Success(val user: CreateUserResponse) : SignInState()
     data class Error(val error: String) : SignInState()
 }
 
@@ -22,7 +23,7 @@ class SignInViewModel(
 
     private val _state = MutableStateFlow<SignInState>(SignInState.FirstState)
     val state: StateFlow<SignInState> = _state
-    val isUserCreated = MutableStateFlow(false)
+    val userCreated = MutableStateFlow(false)
 
     fun createUser(request: CreateUserRequest) {
         viewModelScope.launch {
@@ -35,8 +36,8 @@ class SignInViewModel(
         _state.value = SignInState.FirstState
     }
 
-    override fun isUserCreated(isCreated: Boolean) {
-        _state.value = SignInState.Success(isCreated)
+    override fun isUserCreated(user: CreateUserResponse) {
+        _state.value = SignInState.Success(user)
     }
 
     override fun onError(error: String) {

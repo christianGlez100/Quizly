@@ -14,6 +14,7 @@ import org.koin.core.module.dsl.createdAtStart
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.module.dsl.withOptions
 import org.koin.dsl.module
+import shared.preference.PreferenceManager
 
 fun appModule(engine: HttpClientEngine) = module {
     single {
@@ -33,6 +34,7 @@ fun appModule(engine: HttpClientEngine) = module {
             }
         }
     }
+    single { PreferenceManager(get()) }
     single { UserDataSource(get()) }.withOptions { createdAtStart() }
     single { UserRepository(get()) }.withOptions { createdAtStart() }
     viewModelOf(::SignInViewModel)

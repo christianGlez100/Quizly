@@ -1,6 +1,7 @@
 package com.sesi.quizly.data.repository
 
 import com.sesi.quizly.data.client.request.CreateUserRequest
+import com.sesi.quizly.data.client.response.CreateUserResponse
 import com.sesi.quizly.data.datasource.UserDataSource
 
 class UserRepository(private val dataSource: UserDataSource) {
@@ -13,7 +14,7 @@ class UserRepository(private val dataSource: UserDataSource) {
             if (error != null) {
                 action.onError(error)
             }
-            if (response) {
+            if (response != null) {
                 action.isUserCreated(response)
             }
         }
@@ -21,6 +22,6 @@ class UserRepository(private val dataSource: UserDataSource) {
 }
 
 interface UserAction {
-    fun isUserCreated(isCreated: Boolean)
+    fun isUserCreated(user: CreateUserResponse)
     fun onError(error: String)
 }
