@@ -3,6 +3,7 @@ package com.sesi.quizly.ui.signin.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sesi.quizly.data.client.request.CreateUserRequest
+import com.sesi.quizly.data.client.request.LogInRequest
 import com.sesi.quizly.data.client.response.CreateUserResponse
 import com.sesi.quizly.data.repository.UserAction
 import com.sesi.quizly.data.repository.UserRepository
@@ -17,7 +18,7 @@ sealed class SignInState {
     data class Error(val error: String) : SignInState()
 }
 
-class SignInViewModel(
+class UserViewModel(
     private val userRepository: UserRepository
 ) : ViewModel(), UserAction {
 
@@ -28,7 +29,14 @@ class SignInViewModel(
     fun createUser(request: CreateUserRequest) {
         viewModelScope.launch {
             _state.value = SignInState.Loading
-            userRepository.createUser(request = request, action = this@SignInViewModel)
+            userRepository.createUser(request = request, action = this@UserViewModel)
+        }
+    }
+
+    fun logIn(request: LogInRequest) {
+        viewModelScope.launch {
+            _state.value = SignInState.Loading
+            userRepository.logIn(request = request, action = this@UserViewModel)
         }
     }
 
@@ -36,7 +44,7 @@ class SignInViewModel(
         _state.value = SignInState.FirstState
     }
 
-    override fun isUserCreated(user: CreateUserResponse) {
+    override fun onSuccess(user: CreateUserResponse) {
         _state.value = SignInState.Success(user)
     }
 
