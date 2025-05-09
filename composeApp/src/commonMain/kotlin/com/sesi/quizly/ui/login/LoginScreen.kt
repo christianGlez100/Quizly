@@ -56,9 +56,9 @@ fun LogInScreen(
     }
     if (userToken != null) {
         navController.navigate(Routes.Profile.route)
+    } else {
+        bodyLogIn(navController)
     }
-
-    bodyLogIn(navController)
 }
 
 @Composable
