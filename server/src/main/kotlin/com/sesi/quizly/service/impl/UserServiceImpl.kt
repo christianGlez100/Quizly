@@ -56,10 +56,22 @@ class UserServiceImpl(
 
     override suspend fun login(email: String, password: String): CreateUserResponse? {
         val user = userRepository.login(email, password)
-        val accessToken = tokenService.generateToken(user?.id!!, user.userName)
-        val refreshToken = tokenService.generateRefreshToken()
-        val updateToken = userOauthService.updateUserToken(user.id, accessToken, refreshToken)
-        return userRepository.login(email, password)
+        if (user != null) {
+            val accessToken = tokenService.generateToken(user.id, user.userName)
+            val refreshToken = tokenService.generateRefreshToken()
+            val updateToken = userOauthService.updateUserToken(user.id, accessToken, refreshToken)
+            return userRepository.login(email, password)
+        } else {
+            return CreateUserResponse(
+                id = 0,
+                userName = "",
+                email = "",
+                userImage = "",
+                userBio = "",
+                isCreator = false,
+                tokenData = null
+            )
+        }
     }
 
 

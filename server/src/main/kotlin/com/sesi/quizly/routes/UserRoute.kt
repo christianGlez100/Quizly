@@ -2,6 +2,8 @@ package com.sesi.quizly.routes
 
 import com.sesi.quizly.model.Login
 import com.sesi.quizly.model.User
+import com.sesi.quizly.model.response.ErrorResponse
+import com.sesi.quizly.model.response.SuccessResponse
 import com.sesi.quizly.service.UserService
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.auth.authenticate
@@ -20,10 +22,14 @@ fun Routing.userRoute(userService: UserService) {
             try {
                 val result = userService.login(login.email, login.password)
                 result.let {
-                    call.respond(HttpStatusCode.OK, it!!)
+                    if (it!!.id == 0L) {
+                        call.respond(status = HttpStatusCode.OK, ErrorResponse(message = "Error, valida tus credenciales", data = it, status = "error"))
+                    } else {
+                        call.respond(HttpStatusCode.OK, SuccessResponse(data = it, message = "Success", status = "success"))
+                    }
                 }
-            } catch (e:Exception) {
-                call.respond(HttpStatusCode.InternalServerError, e.message.toString())
+            } catch (e: Exception) {
+                call.respond(HttpStatusCode.InternalServerError, ErrorResponse(message = "Server error", data = null, status = "error"))
             }
         }
         post {
