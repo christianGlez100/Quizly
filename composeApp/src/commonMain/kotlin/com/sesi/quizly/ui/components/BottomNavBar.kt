@@ -28,7 +28,7 @@ fun BottomNavigationBar(
                         imageVector = if (navigationItem.route == currentRoute) navigationItem.selectedIcon else navigationItem.unSelectedIcon,
                         contentDescription = navigationItem.title,
                     )
-                },
+                }/*,
                 label = {
                     Text(
                         text = navigationItem.title,
@@ -37,7 +37,7 @@ fun BottomNavigationBar(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
-                },
+                },*/
             )
         }
     }

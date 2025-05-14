@@ -6,7 +6,9 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHost
@@ -101,11 +103,13 @@ fun MainScreen() {
             topBar = { QuizlyHeader(title = title, isBackVisible = false) {} },
             snackbarHost = { SnackbarHost(snackbarHostState) }
         ) { innerPadding ->
-            MainNavigation(
-                rootNavController = rootNavController,
-                preferenceManager = preferenceManager,
-                snackbarHostState = snackbarHostState
-            )
+            Box(modifier = Modifier.padding(innerPadding)){
+                MainNavigation(
+                    rootNavController = rootNavController,
+                    preferenceManager = preferenceManager,
+                    snackbarHostState = snackbarHostState
+                )
+            }
         }
     }
 }
