@@ -33,6 +33,19 @@ class UserRepository(private val dataSource: UserDataSource) {
             }
         }
     }
+    suspend fun profile(
+        token: String,
+        action: UserAction
+    ) {
+        dataSource.profile(token) { error, response ->
+            if (error != null) {
+                action.onError(error)
+            }
+            if (response != null) {
+                action.onSuccess(response)
+            }
+        }
+    }
 }
 
 interface UserAction {

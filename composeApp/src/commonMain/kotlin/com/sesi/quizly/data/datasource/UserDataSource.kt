@@ -7,6 +7,8 @@ import com.sesi.quizly.data.client.response.BaseResponse
 import com.sesi.quizly.data.client.response.SuccessResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.request.bearerAuth
+import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
@@ -52,6 +54,26 @@ class UserDataSource(
             }
             val resp = clientResponse.body<SuccessResponse<CreateUserResponse>>()
             if (clientResponse.status == HttpStatusCode.OK && resp.status == "success") {
+                handler(null, resp.data)
+            } else {
+                handler(resp.message, null)
+            }
+        } catch (e: Exception) {
+            handler(e.message, null)
+        }
+    }
+
+    suspend fun profile(
+        token: String,
+        handler: (error: String?, response: CreateUserResponse?) -> Unit
+    ) {
+        try {
+            val profileResponse = ktorClient.get("${urlBase}/user/profile") {
+                contentType(ContentType.Application.Json)
+                bearerAuth(token)
+            }
+            val resp = profileResponse.body<SuccessResponse<CreateUserResponse>>()
+            if (profileResponse.status == HttpStatusCode.OK && resp.status == "success") {
                 handler(null, resp.data)
             } else {
                 handler(resp.message, null)

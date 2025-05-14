@@ -32,7 +32,11 @@ fun MainNavigation(rootNavController: NavHostController, preferenceManager: Pref
             )
         }
         composable(route = Routes.Profile.route) {
-            ProfileScreen()
+            ProfileScreen(
+                snackBarHostState = snackbarHostState,
+                preferenceManager = preferenceManager,
+                navController = rootNavController
+            )
         }
 
     }

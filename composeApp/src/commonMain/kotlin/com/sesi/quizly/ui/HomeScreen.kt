@@ -1,18 +1,16 @@
 package com.sesi.quizly.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
@@ -21,22 +19,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.sesi.quizly.data.dto.QuizDto
-import com.sesi.quizly.theme.QuizlyColors
-import com.sesi.quizly.theme.QuizlyTheme
 import com.sesi.quizly.theme.QuizlyTypography
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.coil3.CoilImage
-import moe.tlaster.precompose.PreComposeApp
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import quizly.composeapp.generated.resources.Res
-import quizly.composeapp.generated.resources.app_name
-import quizly.composeapp.generated.resources.compose_multiplatform
 
 @Composable
 fun HomeScreen(snackbarHostState: SnackbarHostState) {
@@ -69,13 +59,12 @@ fun QuizItems(quiz:QuizDto) {
             horizontalArrangement = Arrangement.Start
         ) {
 
-            CoilImage(
-                imageModel = { Res.getUri("drawable/compose-multipltform.xml") },
-                imageOptions = ImageOptions(
-                    contentScale = ContentScale.Crop,
-                    alignment = Alignment.Center
-                ),
-                modifier = Modifier.size(50.dp)
+            AsyncImage(
+                model = "",
+                contentDescription = "user",
+                modifier = Modifier.size(120.dp).clip(RoundedCornerShape(50.dp)).clickable {
+                },
+                contentScale = ContentScale.FillBounds,
             )
             Column(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)) {
                 Text(

@@ -96,7 +96,7 @@ class UserRepositoryImpl(): UserRepository {
             id = row[Users.id],
             userName = row[Users.userName],
             email = row[Users.email],
-            password = row[Users.password],
+            password = "",//row[Users.password],
             userImage = row[Users.userImage],
             userBio = row[Users.userBio],
             isCreator = row[Users.isCreator],

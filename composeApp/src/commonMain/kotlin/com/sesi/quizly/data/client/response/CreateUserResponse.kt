@@ -10,7 +10,7 @@ data class CreateUserResponse(
     val userImage: String,
     val userBio: String,
     val isCreator: Boolean,
-    val tokenData: UserToken?
+    val tokenData: UserToken?=null
 )
 
 @Serializable

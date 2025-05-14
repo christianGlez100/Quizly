@@ -96,7 +96,9 @@ kotlin {
             api(compose.material3)
 
             //landscapist-coil3
-            implementation(libs.landscapist.coil)
+            //implementation(libs.landscapist.coil)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network)
             implementation(libs.androidx.navigation.compose)
 
             //Koin

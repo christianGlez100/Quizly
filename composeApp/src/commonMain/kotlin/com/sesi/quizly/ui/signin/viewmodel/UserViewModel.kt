@@ -39,6 +39,12 @@ class UserViewModel(
             userRepository.logIn(request = request, action = this@UserViewModel)
         }
     }
+    fun profile(token: String) {
+        viewModelScope.launch {
+            _state.value = SignInState.Loading
+            userRepository.profile(token = token, action = this@UserViewModel)
+        }
+    }
 
     fun restoreState() {
         _state.value = SignInState.FirstState
