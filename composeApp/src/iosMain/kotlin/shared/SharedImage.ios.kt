@@ -8,6 +8,7 @@ import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.get
 import kotlinx.cinterop.reinterpret
 import org.jetbrains.skia.Image
+import platform.Foundation.base64EncodedStringWithOptions
 import platform.UIKit.UIImage
 import platform.UIKit.UIImageJPEGRepresentation
 
@@ -37,7 +38,17 @@ actual class SharedImage(private val image: UIImage?) {
         }
     }
 
+    actual fun toB64(): String? {
+        return if (image != null) {
+            val converter = Base64Converter()
+            converter.encodeImageToBase64(image)
+        } else {
+            null
+        }
+    }
+
     private companion object {
         const val COMPRESSION_QUALITY = 0.99
+        const val COMPRESSION_QUALITY_50 = 0.50
     }
 }

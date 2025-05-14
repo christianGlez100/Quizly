@@ -1,5 +1,6 @@
 package com.sesi.quizly.ui.signin.viewmodel
 
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sesi.quizly.data.client.request.CreateUserRequest
@@ -10,6 +11,7 @@ import com.sesi.quizly.data.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import shared.Base64Converter
 
 sealed class SignInState {
     object Loading : SignInState()
@@ -19,7 +21,8 @@ sealed class SignInState {
 }
 
 class UserViewModel(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val base64Converter: Base64Converter
 ) : ViewModel(), UserAction {
 
     private val _state = MutableStateFlow<SignInState>(SignInState.FirstState)
@@ -48,6 +51,14 @@ class UserViewModel(
 
     fun restoreState() {
         _state.value = SignInState.FirstState
+    }
+
+    fun encodeImage(image: ImageBitmap): String? {
+        return base64Converter.encodeImageToBase64(image)
+    }
+
+    fun decodeImage(image: String): Any? {
+        return base64Converter.decodeBase64ToImage(image)
     }
 
     override fun onSuccess(user: CreateUserResponse) {

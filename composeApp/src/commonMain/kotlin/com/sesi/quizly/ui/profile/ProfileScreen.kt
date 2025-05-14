@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
@@ -55,13 +56,15 @@ import quizly.composeapp.generated.resources.Res
 import quizly.composeapp.generated.resources.ic_person_circle
 import quizly.composeapp.generated.resources.loading
 import shared.preference.PreferenceManager
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 @Composable
 fun ProfileScreen(
     viewModel: UserViewModel = koinViewModel(),
     preferenceManager: PreferenceManager?,
     snackBarHostState: SnackbarHostState,
-    navController: NavHostController
+    navController: NavHostController,
+
 ) {
     var userToken by remember { mutableStateOf<String?>(null) }
     LaunchedEffect(Unit) {
@@ -102,25 +105,30 @@ fun ProfileScreen(
     }
 }
 
+@OptIn(ExperimentalEncodingApi::class)
 @Composable
 fun bodyProfile(
     response: CreateUserResponse,
     viewModel: UserViewModel,
     navController: NavHostController
 ) {
-
-
     Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         Column(modifier = Modifier.fillMaxSize()) {
             Row(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 30.dp)) {
                 if (response.userImage.isNotEmpty()){
-                    AsyncImage(
-                        model = response.userImage,
+                    val image = viewModel.decodeImage(response.userImage) as ImageBitmap
+                    Image(bitmap = image,
+                        contentDescription = "user",
+                        modifier = Modifier.size(120.dp).clip(RoundedCornerShape(50.dp)).clickable {
+                        },
+                        contentScale = ContentScale.FillBounds)
+                    /* AsyncImage(
+                        model = image,
                         contentDescription = "user",
                         modifier = Modifier.size(120.dp).clip(RoundedCornerShape(50.dp)).clickable {
                         },
                         contentScale = ContentScale.FillBounds,
-                    )
+                    )*/
                 } else {
                     Image(
                         painter = painterResource(Res.drawable.ic_person_circle),

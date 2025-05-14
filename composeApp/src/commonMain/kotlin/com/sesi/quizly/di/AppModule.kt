@@ -14,6 +14,7 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.module.dsl.withOptions
 import com.sesi.quizly.ui.signin.viewmodel.UserViewModel
 import org.koin.dsl.module
+import shared.Base64Converter
 import shared.preference.PreferenceManager
 
 fun appModule(engine: HttpClientEngine) = module {
@@ -34,6 +35,7 @@ fun appModule(engine: HttpClientEngine) = module {
             }
         }
     }
+    single { Base64Converter() }
     single { PreferenceManager(get()) }
     single { UserDataSource(get()) }.withOptions { createdAtStart() }
     single { UserRepository(get()) }.withOptions { createdAtStart() }

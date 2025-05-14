@@ -29,4 +29,13 @@ actual class SharedImage(private val bitmap: android.graphics.Bitmap?) {
         }
     }
 
+    actual fun toB64(): String? {
+        return if (bitmap != null) {
+            val converter = Base64Converter()
+            converter.encodeImageToBase64(bitmap)
+        } else {
+            null
+        }
+    }
+
 }

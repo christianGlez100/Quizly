@@ -63,6 +63,8 @@ import quizly.composeapp.generated.resources.Res
 import quizly.composeapp.generated.resources.email
 import quizly.composeapp.generated.resources.hide_pass
 import quizly.composeapp.generated.resources.ic_person_circle
+import quizly.composeapp.generated.resources.ic_user
+import quizly.composeapp.generated.resources.ic_user_icon
 import quizly.composeapp.generated.resources.loading
 import quizly.composeapp.generated.resources.password
 import quizly.composeapp.generated.resources.show_pass
@@ -124,7 +126,6 @@ fun bodySignIn(viewModel: UserViewModel, isError: Boolean, msg: String = "") {
     var userName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var imgUser by remember { mutableStateOf("") }
     var isButtonEnabled by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -135,6 +136,7 @@ fun bodySignIn(viewModel: UserViewModel, isError: Boolean, msg: String = "") {
     var launchCamera by remember { mutableStateOf(value = false) }
     var launchGallery by remember { mutableStateOf(value = false) }
     var imageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
+    var imageB64 by remember { mutableStateOf<String?>(null) }
     var permissionRationalDialog by remember { mutableStateOf(value = false) }
     val permissionsManager = createPermissionsManager(object : PermissionCallback {
         override fun onPermissionStatus(
@@ -162,6 +164,7 @@ fun bodySignIn(viewModel: UserViewModel, isError: Boolean, msg: String = "") {
             val bitmap = withContext(Dispatchers.Default) {
                 it?.toImageBitmap()
             }
+            imageB64 = withContext(Dispatchers.Default) { it?.toB64()}
             imageBitmap = bitmap
         }
     }
@@ -170,6 +173,7 @@ fun bodySignIn(viewModel: UserViewModel, isError: Boolean, msg: String = "") {
             val bitmap = withContext(Dispatchers.Default) {
                 it?.toImageBitmap()
             }
+            imageB64 = withContext(Dispatchers.Default) { it?.toB64()}
             imageBitmap = bitmap
         }
     }
@@ -233,7 +237,7 @@ fun bodySignIn(viewModel: UserViewModel, isError: Boolean, msg: String = "") {
             Row(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 30.dp)) {
                 if (imageBitmap == null) {
                     Image(
-                        painter = painterResource(Res.drawable.ic_person_circle),
+                        painter = painterResource(Res.drawable.ic_user_icon),
                         contentDescription = "user",
                         modifier = Modifier.size(120.dp).clip(RoundedCornerShape(50.dp)).clickable {
                             imageSourceOptionDialog = true
@@ -248,9 +252,8 @@ fun bodySignIn(viewModel: UserViewModel, isError: Boolean, msg: String = "") {
                         modifier = Modifier.size(120.dp).clip(RoundedCornerShape(50.dp)).clickable {
                             imageSourceOptionDialog = true
                         },
-                        contentScale = ContentScale.FillBounds,
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
-                    )
+                        contentScale = ContentScale.FillBounds
+                        )
                 }
             }
 
@@ -332,7 +335,7 @@ fun bodySignIn(viewModel: UserViewModel, isError: Boolean, msg: String = "") {
                                 userName = userName,
                                 email = email,
                                 password = password,
-                                userImage = imgUser,
+                                userImage = imageB64,
                                 userBio = "",
                                 isCreator = false
                             )
