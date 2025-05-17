@@ -7,9 +7,9 @@ data class CreateUserResponse(
     val id: Long,
     val userName: String,
     val email: String,
-    val userImage: String,
-    val userBio: String,
-    val isCreator: Boolean,
+    val userImage: String?=null,
+    val userBio: String?=null,
+    val isCreator: Boolean?=null,
     val tokenData: UserToken?=null
 )
 

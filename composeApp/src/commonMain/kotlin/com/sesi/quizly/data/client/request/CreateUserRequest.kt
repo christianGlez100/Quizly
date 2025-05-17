@@ -8,7 +8,8 @@ class CreateUserRequest(
     val userName: String,
     val email: String,
     val password: String,
-    val userImage: String?,
+    val userImage: ByteArray?,
+    var userImageName: String = "",
     val userBio: String,
     val isCreator: Boolean
 )

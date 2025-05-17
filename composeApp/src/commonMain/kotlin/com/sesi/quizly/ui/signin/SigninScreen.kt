@@ -77,6 +77,8 @@ import shared.createPermissionsManager
 import shared.preference.PreferenceManager
 import shared.rememberCameraManager
 import shared.rememberGalleryManager
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 @Composable
 fun SignInScreen(
@@ -136,7 +138,7 @@ fun bodySignIn(viewModel: UserViewModel, isError: Boolean, msg: String = "") {
     var launchCamera by remember { mutableStateOf(value = false) }
     var launchGallery by remember { mutableStateOf(value = false) }
     var imageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
-    var imageB64 by remember { mutableStateOf<String?>(null) }
+    var imageByte by remember { mutableStateOf<ByteArray?>(null) }
     var permissionRationalDialog by remember { mutableStateOf(value = false) }
     val permissionsManager = createPermissionsManager(object : PermissionCallback {
         override fun onPermissionStatus(
@@ -164,7 +166,9 @@ fun bodySignIn(viewModel: UserViewModel, isError: Boolean, msg: String = "") {
             val bitmap = withContext(Dispatchers.Default) {
                 it?.toImageBitmap()
             }
-            imageB64 = withContext(Dispatchers.Default) { it?.toB64()}
+            imageByte = withContext(Dispatchers.Default) {
+                it?.toByteArray()
+            }
             imageBitmap = bitmap
         }
     }
@@ -173,7 +177,9 @@ fun bodySignIn(viewModel: UserViewModel, isError: Boolean, msg: String = "") {
             val bitmap = withContext(Dispatchers.Default) {
                 it?.toImageBitmap()
             }
-            imageB64 = withContext(Dispatchers.Default) { it?.toB64()}
+            imageByte = withContext(Dispatchers.Default) {
+                it?.toByteArray()
+            }
             imageBitmap = bitmap
         }
     }
@@ -335,7 +341,8 @@ fun bodySignIn(viewModel: UserViewModel, isError: Boolean, msg: String = "") {
                                 userName = userName,
                                 email = email,
                                 password = password,
-                                userImage = imageB64,
+                                userImage = imageByte,
+                                userImageName = "${userName}.jpg",
                                 userBio = "",
                                 isCreator = false
                             )

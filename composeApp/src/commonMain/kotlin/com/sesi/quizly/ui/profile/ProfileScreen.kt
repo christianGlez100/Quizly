@@ -115,7 +115,7 @@ fun bodyProfile(
     Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         Column(modifier = Modifier.fillMaxSize()) {
             Row(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 30.dp)) {
-                if (response.userImage.isNotEmpty()){
+                if (response.userImage != null){
                     val image = viewModel.decodeImage(response.userImage) as ImageBitmap
                     Image(bitmap = image,
                         contentDescription = "user",
@@ -145,7 +145,7 @@ fun bodyProfile(
             }
             Row(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 10.dp, start = 16.dp, end = 16.dp)) {
                 Text(
-                    text = response.userBio,
+                    text = response.userBio ?: "",
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.secondary,
                     maxLines = 5
