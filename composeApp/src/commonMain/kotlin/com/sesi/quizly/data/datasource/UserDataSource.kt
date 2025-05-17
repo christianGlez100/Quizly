@@ -24,7 +24,7 @@ import io.ktor.utils.io.InternalAPI
 class UserDataSource(
     private val ktorClient: HttpClient
 ) {
-    private val urlBase = "http://nasquizly.chrisstek.icu"
+    private val urlBase = "http://nasdb.chrisstek.icu"
     //private val urlBase = "http://192.168.50.232:8080"
     //private val urlBase = "http://127.0.0.1:8080"
 

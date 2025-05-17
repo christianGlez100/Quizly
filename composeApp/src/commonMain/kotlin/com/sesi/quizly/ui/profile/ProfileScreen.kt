@@ -35,13 +35,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
+import com.sesi.quizly.data.Constants
 import com.sesi.quizly.data.client.response.CreateUserResponse
 import com.sesi.quizly.ui.components.ButtonQ
 import com.sesi.quizly.ui.signin.viewmodel.SignInState
@@ -116,19 +116,19 @@ fun bodyProfile(
         Column(modifier = Modifier.fillMaxSize()) {
             Row(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 30.dp)) {
                 if (response.userImage != null){
-                    val image = viewModel.decodeImage(response.userImage) as ImageBitmap
+                    /*val image = viewModel.decodeImage(response.userImage) as ImageBitmap
                     Image(bitmap = image,
                         contentDescription = "user",
                         modifier = Modifier.size(120.dp).clip(RoundedCornerShape(50.dp)).clickable {
                         },
-                        contentScale = ContentScale.FillBounds)
-                    /* AsyncImage(
-                        model = image,
+                        contentScale = ContentScale.FillBounds)*/
+                     AsyncImage(
+                        model = Constants.URL_BASE_ASSETS + response.userImage,
                         contentDescription = "user",
                         modifier = Modifier.size(120.dp).clip(RoundedCornerShape(50.dp)).clickable {
                         },
                         contentScale = ContentScale.FillBounds,
-                    )*/
+                    )
                 } else {
                     Image(
                         painter = painterResource(Res.drawable.ic_person_circle),
