@@ -124,7 +124,9 @@ fun bodyLogIn(navController: NavHostController, viewModel: UserViewModel) {
                 TextFieldQ(
                     hint = stringResource(Res.string.email),
                     value = email,
-                    KeyboardOptions(keyboardType = KeyboardType.Email),
+                    maxLines = 1,
+                    minLines = 1,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                     onValueChange = {
                         email = it
                         isButtonEnabled = validateFields(email, password)
@@ -209,7 +211,9 @@ fun LogInScreenPre(){
                 TextFieldQ(
                     hint = "Email",
                     value = "",
-                    KeyboardOptions(keyboardType = KeyboardType.Email),
+                    maxLines = 1,
+                    minLines = 1,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                     onValueChange = { })
             }
             Row(

@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import com.sesi.quizly.ui.HomeScreen
 import com.sesi.quizly.ui.login.LogInScreen
 import com.sesi.quizly.ui.profile.ProfileScreen
+import com.sesi.quizly.ui.quiz.CreateQuizScreen
 import com.sesi.quizly.ui.signin.SignInScreen
 import shared.preference.PreferenceManager
 
@@ -36,6 +37,13 @@ fun MainNavigation(rootNavController: NavHostController, preferenceManager: Pref
                 snackBarHostState = snackbarHostState,
                 preferenceManager = preferenceManager,
                 navController = rootNavController
+            )
+        }
+        composable(route = Routes.CreateQuiz.route) {
+            CreateQuizScreen(
+                /*snackbarHostState = snackbarHostState,
+                preferenceManager = preferenceManager,
+                navController = rootNavController*/
             )
         }
 

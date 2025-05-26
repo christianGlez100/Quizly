@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 fun TextFieldQ(
     hint: String,
     value: String,
+    maxLines: Int = 1,
+    minLines: Int = 1,
     keyboardOptions: KeyboardOptions,
     onValueChange: (String) -> Unit
 ) {
@@ -20,7 +22,8 @@ fun TextFieldQ(
         value = value,
         onValueChange = onValueChange,
         label = { Text(hint, color = MaterialTheme.colorScheme.secondary) },
-        maxLines = 1,
+        maxLines = maxLines,
+        minLines = minLines,
         keyboardOptions = keyboardOptions,
         modifier = Modifier.fillMaxWidth(),
         colors = OutlinedTextFieldDefaults.colors(

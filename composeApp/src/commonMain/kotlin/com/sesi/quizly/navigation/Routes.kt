@@ -17,6 +17,7 @@ sealed class Routes(var route: String) {
     data object LogIn : Routes("login")
     data object Profile: Routes("profile")
     data object HomeDetail : Routes("homeDetail")
+    data object CreateQuiz : Routes("createQuiz")
     data object SettingDetail : Routes("settingDetail")
 }
 

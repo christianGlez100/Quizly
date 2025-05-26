@@ -270,7 +270,9 @@ fun bodySignIn(viewModel: UserViewModel, isError: Boolean, msg: String = "") {
                 TextFieldQ(
                     hint = stringResource(Res.string.user_name),
                     value = userName,
-                    KeyboardOptions(keyboardType = KeyboardType.Text),
+                    maxLines = 1,
+                    minLines = 1,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     onValueChange = {
                         userName = it
                         isButtonEnabled = validateFields(userName, email, password)
@@ -283,7 +285,9 @@ fun bodySignIn(viewModel: UserViewModel, isError: Boolean, msg: String = "") {
                 TextFieldQ(
                     hint = stringResource(Res.string.email),
                     value = email,
-                    KeyboardOptions(keyboardType = KeyboardType.Email),
+                    maxLines = 1,
+                    minLines = 1,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                     onValueChange = {
                         email = it
                         isButtonEnabled = validateFields(userName, email, password)
