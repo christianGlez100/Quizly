@@ -217,7 +217,9 @@ fun bodyProfile(
             }
         }
         Row(modifier = Modifier.align(alignment = Alignment.BottomCenter).padding(bottom = 16.dp, start = 16.dp, end = 16.dp)){
-            ButtonQ(onClick = {}, text = "Crear test", isEnabled = true)
+            ButtonQ(onClick = {
+                navController.navigate(com.sesi.quizly.navigation.Routes.CreateQuiz.route)
+            }, text = "Crear test", isEnabled = true)
         }
     }
 }

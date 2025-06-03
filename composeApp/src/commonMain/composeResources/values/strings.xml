@@ -19,4 +19,10 @@
     <string name="test_answer">Respuesta</string>
     <string name="test_create">Crear</string>
 
+    <string name="lbl_question">Pregunta</string>
+    <string name="lbl_anser1">Respuesta 1</string>
+    <string name="lbl_anser2">Respuesta 2</string>
+    <string name="lbl_anser3">Respuesta 3</string>
+    <string name="lbl_anser4">Respuesta 4</string>
+    <string name="lbl_puntos">Puntos</string>
 </resources>
