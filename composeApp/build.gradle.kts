@@ -100,6 +100,7 @@ kotlin {
             implementation(libs.coil.compose)
             implementation(libs.coil.network)
             implementation(libs.androidx.navigation.compose)
+            implementation(libs.androidx.compose.material3)
 
             //Koin
             implementation(libs.koin.core)

@@ -25,4 +25,6 @@
     <string name="lbl_anser3">Respuesta 3</string>
     <string name="lbl_anser4">Respuesta 4</string>
     <string name="lbl_puntos">Puntos</string>
+    <string name="lbl_add_question">Agregar pregunta</string>
+    <string name="lbl_delete">Eliminar</string>
 </resources>
