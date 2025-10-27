@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import co.touchlab.kermit.Logger
 import com.sesi.quizly.ui.components.ButtonQ
 import com.sesi.quizly.ui.components.ButtonQCustom
 import com.sesi.quizly.ui.components.QuestionBlock
@@ -52,6 +53,7 @@ fun Body(){
     val titleValue by remember { mutableStateOf("") }
     val descriptionValue by remember { mutableStateOf("") }
     val questions = remember { mutableStateOf(listOf(QuestionState(id = 1))) }
+    val questionList = remember {  mutableListOf<Question>(Question(id = 1)) }
 
     Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
@@ -86,24 +88,13 @@ fun Body(){
             }
 
             questions.value.forEachIndexed { index, questionState ->
-                val dismissState = rememberSwipeToDismissBoxState(
-                    confirmValueChange = { dismissValue ->
-                        // This lambda is called when the swipe gesture ends
-                        if (dismissValue == SwipeToDismissBoxValue.EndToStart) {
-                            // Create a new list excluding the swiped item
-                            questions.value = questions.value.filterNot { it.id == questionState.id }
-                            true // Confirm that the state change is handled
-                        } else {
-                            false // Don't handle other swipe directions
-                        }
-                    },
-                    positionalThreshold = { fullWidth : Float -> fullWidth  * 0.5f }
-                )
                 val arrowAngle by animateFloatAsState(
                     targetValue = if (questionState.isVisible) 180f else 0f,
                     label = "arrowAnimation_${questionState.id}"
                 )
                 QuestionBlock(
+                    index = index,
+                    questions = questionList,
                     "${stringResource(Res.string.lbl_question)} ${index + 1}",
                     questionState.isVisible,
                     onClick = {
@@ -128,15 +119,31 @@ fun Body(){
                     modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
                 ) {
                     val newId = (questions.value.lastOrNull()?.id ?: 0) + 1
+                    questionList.add(Question(id = newId))
                     questions.value = questions.value + QuestionState(id = newId)
                 }
-                ButtonQ({},"Guardar", isEnabled = true )
+                ButtonQ({
+                    questionList.forEach { Logger.i { it.question } }
+                },"Guardar", isEnabled = true )
             }
         }
 
     }
 }
 
+data class Question(
+    var id: Int,
+    var question: String = "",
+    var answer1: String = "",
+    var answer1Points: String = "",
+    var answer2: String = "",
+    var answer2Points: String = "",
+    var answer3: String = "",
+    var answer3Points: String = "",
+    var answer4: String = "",
+    var answer4Points: String = "",
+    var isComplete: Boolean = false
+)
 
 data class QuestionState(
     val id: Int,

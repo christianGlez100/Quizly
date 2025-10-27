@@ -14,5 +14,5 @@ fun CreateQuizScreenPreview() {
 @Preview(showSystemUi = true, device = "id:pixel_7")
 @Composable
 fun QuestionBlockPreview(){
-    QuestionBlock(question = "Pregunta 1",isVisible = true){}
+    QuestionBlock(index = 0, questions = listOf(), question = "Pregunta 1",isVisible = true){}
 }

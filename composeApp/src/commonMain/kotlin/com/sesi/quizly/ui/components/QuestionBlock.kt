@@ -25,6 +25,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,6 +38,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.sesi.quizly.theme.QuizlyTypography
+import com.sesi.quizly.ui.quiz.Question
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import quizly.composeapp.generated.resources.Res
@@ -48,7 +53,18 @@ import quizly.composeapp.generated.resources.lbl_question
 
 
 @Composable
-fun QuestionBlock(question: String = "", isVisible:Boolean, arrow: Float = 0F, onClick: () -> Unit) {
+fun QuestionBlock(index: Int, questions: List<Question>, question: String = "", isVisible:Boolean, arrow: Float = 0F, onClick: () -> Unit) {
+
+    var questionRemember by remember { mutableStateOf("") }
+    var answer1Remember by remember { mutableStateOf("") }
+    var answer1PointsRemember by remember { mutableStateOf("")}
+    var answer2Remember by remember { mutableStateOf("") }
+    var answer2PointsRemember by remember { mutableStateOf("")}
+    var answer3Remember by remember { mutableStateOf("") }
+    var answer3PointsRemember by remember { mutableStateOf("")}
+    var answer4Remember by remember { mutableStateOf("") }
+    var answer4PointsRemember by remember { mutableStateOf("")}
+
     Spacer(modifier = Modifier.height(16.dp))
     Row(modifier = Modifier.fillMaxWidth()
         .background(MaterialTheme.colorScheme.secondaryContainer)
@@ -97,11 +113,13 @@ fun QuestionBlock(question: String = "", isVisible:Boolean, arrow: Float = 0F, o
             Row(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 8.dp)) {
                 TextFieldQ(
                     hint = stringResource(Res.string.lbl_question),
-                    value = "",
+                    value = questionRemember,
                     maxLines = 1,
                     minLines = 1,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     onValueChange = {
+                        questionRemember = it
+                        questions[index].question = it
                     })
             }
             Row(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 8.dp)) {
@@ -109,21 +127,25 @@ fun QuestionBlock(question: String = "", isVisible:Boolean, arrow: Float = 0F, o
                 Box(modifier = Modifier.weight(2f)) {
                     TextFieldQ(
                         hint = stringResource(Res.string.lbl_anser1),
-                        value = "",
+                        value = answer1Remember,
                         maxLines = 1,
                         minLines = 1,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                         onValueChange = {
+                            answer1Remember = it
+                            questions[index].answer1 = it
                         })
                 }
                 Box(modifier = Modifier.weight(1f).padding(start = 8.dp)) {
                     TextFieldQ(
                         hint = stringResource(Res.string.lbl_puntos),
-                        value = "",
+                        value = answer1PointsRemember,
                         maxLines = 1,
                         minLines = 1,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         onValueChange = {
+                            answer1PointsRemember = it
+                            questions[index].answer1Points = it
                         })
                 }
             }
@@ -132,21 +154,25 @@ fun QuestionBlock(question: String = "", isVisible:Boolean, arrow: Float = 0F, o
                 Box(modifier = Modifier.weight(2f)) {
                     TextFieldQ(
                         hint = stringResource(Res.string.lbl_anser2),
-                        value = "",
+                        value = answer2Remember,
                         maxLines = 1,
                         minLines = 1,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                         onValueChange = {
+                            answer2Remember = it
+                            questions[index].answer2 = it
                         })
                 }
                 Box(modifier = Modifier.weight(1f).padding(start = 8.dp)) {
                     TextFieldQ(
                         hint = stringResource(Res.string.lbl_puntos),
-                        value = "",
+                        value = answer2PointsRemember,
                         maxLines = 1,
                         minLines = 1,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                         onValueChange = {
+                            answer2PointsRemember = it
+                            questions[index].answer2Points = it
                         })
                 }
             }
@@ -154,21 +180,25 @@ fun QuestionBlock(question: String = "", isVisible:Boolean, arrow: Float = 0F, o
                 Box(modifier = Modifier.weight(2f)) {
                     TextFieldQ(
                         hint = stringResource(Res.string.lbl_anser3),
-                        value = "",
+                        value = answer3Remember,
                         maxLines = 1,
                         minLines = 1,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                         onValueChange = {
+                            answer3Remember = it
+                            questions[index].answer3 = it
                         })
                 }
                 Box(modifier = Modifier.weight(1f).padding(start = 8.dp)) {
                     TextFieldQ(
                         hint = stringResource(Res.string.lbl_puntos),
-                        value = "",
+                        value = answer3PointsRemember,
                         maxLines = 1,
                         minLines = 1,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                         onValueChange = {
+                            answer3PointsRemember = it
+                            questions[index].answer3Points = it
                         })
                 }
             }
@@ -176,21 +206,25 @@ fun QuestionBlock(question: String = "", isVisible:Boolean, arrow: Float = 0F, o
                 Box(modifier = Modifier.weight(2f)) {
                     TextFieldQ(
                         hint = stringResource(Res.string.lbl_anser4),
-                        value = "",
+                        value = answer4Remember,
                         maxLines = 1,
                         minLines = 1,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                         onValueChange = {
+                            answer4Remember = it
+                            questions[index].answer4 = it
                         })
                 }
                 Box(modifier = Modifier.weight(1f).padding(start = 8.dp)) {
                     TextFieldQ(
                         hint = stringResource(Res.string.lbl_puntos),
-                        value = "",
+                        value = answer4PointsRemember,
                         maxLines = 1,
                         minLines = 1,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                         onValueChange = {
+                            answer4PointsRemember = it
+                            questions[index].answer4Points = it
                         })
                 }
             }
