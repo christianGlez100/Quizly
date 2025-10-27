@@ -102,6 +102,8 @@ kotlin {
             implementation(libs.androidx.navigation.compose)
             implementation(libs.androidx.compose.material3)
 
+            implementation(libs.kermit)
+
             //Koin
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
