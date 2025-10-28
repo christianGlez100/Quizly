@@ -2,6 +2,7 @@ package com.sesi.quizly.di
 
 import com.sesi.quizly.data.datasource.UserDataSource
 import com.sesi.quizly.data.repository.UserRepository
+import com.sesi.quizly.ui.quiz.viewmodel.QuizViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -40,4 +41,5 @@ fun appModule(engine: HttpClientEngine) = module {
     single { UserDataSource(get()) }.withOptions { createdAtStart() }
     single { UserRepository(get()) }.withOptions { createdAtStart() }
     viewModelOf(::UserViewModel)
+    viewModelOf(::QuizViewModel)
 }

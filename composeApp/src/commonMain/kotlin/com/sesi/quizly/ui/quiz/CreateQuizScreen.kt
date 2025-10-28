@@ -15,12 +15,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SwipeToDismissBoxValue
-import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,27 +33,38 @@ import com.sesi.quizly.ui.components.ButtonQ
 import com.sesi.quizly.ui.components.ButtonQCustom
 import com.sesi.quizly.ui.components.QuestionBlock
 import com.sesi.quizly.ui.components.TextFieldQ
+import com.sesi.quizly.ui.quiz.viewmodel.QuizViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 import quizly.composeapp.generated.resources.Res
 import quizly.composeapp.generated.resources.ic_user_icon
 import quizly.composeapp.generated.resources.lbl_add_question
 import quizly.composeapp.generated.resources.lbl_question
 import quizly.composeapp.generated.resources.test_description
 import quizly.composeapp.generated.resources.test_title
+import shared.ToastDuration
+import shared.showToast
 
 @Composable
-fun CreateQuizScreen(){
-    Body()
+fun CreateQuizScreen(viewModel: QuizViewModel = koinViewModel()){
+    Body(viewModel)
 }
 
 @Composable
-fun Body(){
+fun Body(viewModel: QuizViewModel) {
 
-    val titleValue by remember { mutableStateOf("") }
-    val descriptionValue by remember { mutableStateOf("") }
+    var titleValue by remember { mutableStateOf("") }
+    var descriptionValue by remember { mutableStateOf("") }
     val questions = remember { mutableStateOf(listOf(QuestionState(id = 1))) }
     val questionList = remember {  mutableListOf<Question>(Question(id = 1)) }
+    var toastMessage by remember { mutableStateOf<String?>(null) }
+
+
+    toastMessage?.let { message ->
+        showToast(message, ToastDuration.LONG)
+        toastMessage = null
+    }
 
     Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
@@ -118,9 +129,13 @@ fun Body(){
                     buttonContentColor = MaterialTheme.colorScheme.onSecondary,
                     modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
                 ) {
-                    val newId = (questions.value.lastOrNull()?.id ?: 0) + 1
-                    questionList.add(Question(id = newId))
-                    questions.value = questions.value + QuestionState(id = newId)
+                    if (viewModel.isCompleteQuestion(questionList.last())) {
+                        val newId = (questions.value.lastOrNull()?.id ?: 0) + 1
+                        questionList.add(Question(id = newId))
+                        questions.value = questions.value + QuestionState(id = newId)
+                    } else {
+                        toastMessage = "Todos los campos son obligatorios"
+                    }
                 }
                 ButtonQ({
                     questionList.forEach { Logger.i { it.question } }
