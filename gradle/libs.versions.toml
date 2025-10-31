@@ -37,7 +37,7 @@ coil = "3.3.0"
 coil-network = "3.3.0"
 shadow = "8.3.6"
 kermit = "2.0.8"
-sonarqube = "3.5.0.2730"
+sonarqube = "7.0.1.6134"
 kover = "0.9.3"
 
 [libraries]
