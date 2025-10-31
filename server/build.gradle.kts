@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.plugin.serialization)
     alias(libs.plugins.shadow)
     alias(libs.plugins.sonarqube)
+    alias(libs.plugins.ktor.kover)
     application
 }
 
