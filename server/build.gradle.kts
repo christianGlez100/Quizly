@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.ktor)
     alias(libs.plugins.kotlin.plugin.serialization)
     alias(libs.plugins.shadow)
+    alias(libs.plugins.sonarqube)
     application
 }
 
@@ -38,6 +39,8 @@ dependencies {
     implementation(libs.hikari)
     testImplementation(libs.ktor.server.tests)
     testImplementation(libs.kotlin.test.junit)
+    testImplementation(libs.koin.test.junit4)
+    testImplementation(libs.mockito.kotlin)
 }
 
 tasks.withType<ShadowJar> {

@@ -18,6 +18,7 @@ kotlin = "2.2.21"
 ktor = "3.3.1"
 ktor-test = "2.3.13"
 logback = "1.5.20"
+mockitoKotlin = "6.1.0"
 precompose = "1.6.2"
 landscapist-coil3 = "2.4.7"
 navigation-compose = "2.9.1"
@@ -36,11 +37,12 @@ coil = "3.3.0"
 coil-network = "3.3.0"
 shadow = "8.3.6"
 kermit = "2.0.8"
-sonarqube = "7.0.1.6134"
+sonarqube = "3.5.0.2730"
 kover = "0.9.3"
 
 [libraries]
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit"}
+koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -64,6 +66,7 @@ ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "k
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor"}
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist-permissions" }
 datastore-preference = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 datastore-preference-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastore" }
@@ -85,6 +88,7 @@ hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
 exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed-version" }
 exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed-version" }
 exposed-java-time = { module = "org.jetbrains.exposed:exposed-java-time", version.ref = "exposed-version" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 mysql-connector-java = { module = "mysql:mysql-connector-java", version.ref = "mysql" }
 
 ktor-server-tests = { module = "io.ktor:ktor-server-tests-jvm", version.ref = "ktor-test" }
@@ -97,6 +101,11 @@ androidx-navigation-compose = { group = "org.jetbrains.androidx.navigation", nam
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+koin-test-tools = { module = "io.insert-koin:koin-test-tools", version.ref = "koin" }
+koin-test-jvm = { module = "io.insert-koin:koin-test-jvm", version.ref = "koin" }
+
+
 precompose-koin = { module = "moe.tlaster:precompose-koin", version.ref = "precompose" }
 koin-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel-navigation", version.ref = "koin" }
 androidx-exifinterface = { group = "androidx.exifinterface", name = "exifinterface", version.ref = "exifinterface" }

@@ -17,7 +17,7 @@ class UserOauthServiceImpl(
         val userOauth = UserOauth(
             accessToken = accessToken,
             refreshToken = refreshToken,
-            userId = user.id,
+            userId = user.id!!,
             provider = "local"
         )
         return userOauthRepository.addUserOauth(userOauth)
