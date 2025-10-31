@@ -8,7 +8,6 @@ import coil3.util.DebugLogger
 import com.sesi.quizly.theme.QuizlyTheme
 import com.sesi.quizly.ui.MainScreen
 import moe.tlaster.precompose.PreComposeApp
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinContext
 
 @Composable
