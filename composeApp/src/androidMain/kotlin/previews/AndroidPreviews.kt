@@ -3,10 +3,8 @@ package previews
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.sesi.quizly.ui.HomeScreen
-import com.sesi.quizly.ui.QuizItems
 import com.sesi.quizly.ui.QuizlyHeader
 
 @Preview
