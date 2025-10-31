@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform) apply false
     alias(libs.plugins.sonarqube)
 }
-
+/*
 allprojects {
     apply(plugin = "org.sonarqube")
 }
@@ -17,14 +17,15 @@ subprojects {
 
     sonarqube {
         properties {
-            property("sonar.projectKey", project.name)
+            property("sonar.projectKey", "christianGlez100_Quizly")
             property("sonar.projectName", project.name)
             property("sonar.language", "kotlin")
             property("sonar.sourceEncoding", "UTF-8")
-           // property("sonar.host.url", "http://192.168.50.73:9000/")
-           // property("sonar.login","sqp_8dfd0795900abb041ce5c8604f9f2e33c10c7473")
+            property("sonar.host.url", "https://sonarcloud.io")
+            property("sonar.organization","christianglez100")
+            property("sonar.login","81e0198c6dfc8ee2c1790af25c633350c1654bbb")
             property("sonar.sources", "src/androidMain/kotlin,src/commonMain/kotlin,src/iosMain/kotlin,src/main/kotlin")
             property("sonar.tests", "src/commonTest/kotlin,src/test/kotlin")
         }
     }
-}
+}*/
