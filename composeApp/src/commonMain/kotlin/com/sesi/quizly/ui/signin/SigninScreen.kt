@@ -62,8 +62,6 @@ import org.koin.compose.viewmodel.koinViewModel
 import quizly.composeapp.generated.resources.Res
 import quizly.composeapp.generated.resources.email
 import quizly.composeapp.generated.resources.hide_pass
-import quizly.composeapp.generated.resources.ic_person_circle
-import quizly.composeapp.generated.resources.ic_user
 import quizly.composeapp.generated.resources.ic_user_icon
 import quizly.composeapp.generated.resources.loading
 import quizly.composeapp.generated.resources.password
@@ -77,8 +75,6 @@ import shared.createPermissionsManager
 import shared.preference.PreferenceManager
 import shared.rememberCameraManager
 import shared.rememberGalleryManager
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 @Composable
 fun SignInScreen(

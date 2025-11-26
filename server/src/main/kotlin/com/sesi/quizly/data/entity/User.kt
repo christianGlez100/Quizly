@@ -1,11 +1,9 @@
 package com.sesi.quizly.data.entity
 
-import com.sesi.quizly.utils.LocalDateTimeSerializer
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.CurrentDateTime
 import org.jetbrains.exposed.sql.javatime.datetime
-import java.time.LocalDateTime
 
 @Serializable
 data class User(

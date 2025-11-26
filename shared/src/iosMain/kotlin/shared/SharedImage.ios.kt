@@ -8,7 +8,6 @@ import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.get
 import kotlinx.cinterop.reinterpret
 import org.jetbrains.skia.Image
-import platform.Foundation.base64EncodedStringWithOptions
 import platform.UIKit.UIImage
 import platform.UIKit.UIImageJPEGRepresentation
 

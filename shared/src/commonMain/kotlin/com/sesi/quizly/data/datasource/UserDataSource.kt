@@ -1,9 +1,8 @@
 package com.sesi.quizly.data.datasource
 
 import com.sesi.quizly.data.client.request.CreateUserRequest
-import com.sesi.quizly.data.client.response.CreateUserResponse
 import com.sesi.quizly.data.client.request.LogInRequest
-import com.sesi.quizly.data.client.response.BaseResponse
+import com.sesi.quizly.data.client.response.CreateUserResponse
 import com.sesi.quizly.data.client.response.SuccessResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -13,7 +12,6 @@ import io.ktor.client.request.forms.formData
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
-import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders

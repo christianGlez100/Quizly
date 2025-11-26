@@ -42,7 +42,7 @@ fun Routing.userRoute(userService: UserService) {
 
         post {
             val newUserMultipart = call.receiveMultipart()
-            var imageUrl: String? = null
+            var imageUrl: String?
             val userData = User()
             newUserMultipart.forEachPart {  part ->
                 when (part) {
@@ -59,7 +59,6 @@ fun Routing.userRoute(userService: UserService) {
                     is PartData.FileItem -> {
                         if (part.name == "userImage") {
                             val originalFileName = part.originalFileName ?: randomUUID().toString()
-                            //val fileBytes = part.streamProvider().readBytes()
 
                             val uploadDir = File("uploads/user") // Store in a directory like 'uploads/items'
                             if (!uploadDir.exists()) {

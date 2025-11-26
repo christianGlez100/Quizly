@@ -35,7 +35,7 @@ class QuizServiceImpl(private val quizRepository: QuizRepository) : QuizService 
     }
 
     override suspend fun getQuizById(id: Long): List<Question>? {
-        var result:List<Question>? = null
+        var result: List<Question>?
         try {
             result = quizRepository.getQuizById(id)
         } catch (e: Exception) {
@@ -57,7 +57,7 @@ class QuizServiceImpl(private val quizRepository: QuizRepository) : QuizService 
     }
 
     override suspend fun getQuizzesByUserId(userId: Long): List<Quiz> {
-        var result:List<Quiz> = emptyList()
+        var result:List<Quiz>
         try {
             result = quizRepository.getQuizzesByUserId(userId)
         } catch (e: Exception) {

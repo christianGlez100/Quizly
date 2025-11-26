@@ -1,7 +1,5 @@
 package com.sesi.quizly.service
 
-import com.sesi.quizly.model.User
-
 
 interface TokenService {
     fun generateToken(userId: Long, userName: String): String
