@@ -6,9 +6,6 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.kotlin.plugin.serialization)
-    alias(libs.plugins.sonarqube)
-    alias(libs.plugins.ktor.kover)
 }
 
 kotlin {
@@ -85,30 +82,13 @@ kotlin {
             implementation(libs.androidx.navigation.compose)
             implementation(libs.androidx.compose.material3)
 
-            implementation(libs.kermit)
-
             //Koin
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.precompose.koin)
             implementation(libs.koin.viewmodel)
 
-            //Ktor Client
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.ktor.client.logging)
-
-            //Preference
-            implementation(libs.datastore.preference)
-            implementation(libs.datastore)
-
-            //Preferences iOS
-            implementation(libs.kmm.settings.noarg)
-            implementation(libs.kmm.settings)
-
-            implementation(libs.kotlinx.coroutines.core)
-
+            implementation(libs.kermit)
         }
 
         iosMain.dependencies {
@@ -116,13 +96,7 @@ kotlin {
             implementation(libs.ktor.client.darwin)
         }
 
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
-            implementation(libs.koin.test)
-            implementation(libs.koin.test.tools)
-            implementation(libs.kotlinx.coroutines.test)
-            implementation(libs.koin.test.jvm)
-        }
+
     }
 }
 
@@ -138,7 +112,6 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     packaging {
         resources {

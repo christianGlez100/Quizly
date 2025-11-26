@@ -42,8 +42,8 @@ import com.sesi.quizly.data.client.request.LogInRequest
 import com.sesi.quizly.navigation.Routes
 import com.sesi.quizly.ui.components.ButtonQ
 import com.sesi.quizly.ui.components.TextFieldQ
-import com.sesi.quizly.ui.signin.viewmodel.SignInState
-import com.sesi.quizly.ui.signin.viewmodel.UserViewModel
+import com.sesi.quizly.viewmodel.SignInState
+import com.sesi.quizly.viewmodel.UserViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource

@@ -3,7 +3,7 @@ package com.sesi.quizly.utils
 import android.content.Context
 import android.net.Uri
 import androidx.core.content.FileProvider
-import com.sesi.quizly.R
+import com.sesi.quizly.shared.R
 import java.io.File
 import java.util.Objects
 

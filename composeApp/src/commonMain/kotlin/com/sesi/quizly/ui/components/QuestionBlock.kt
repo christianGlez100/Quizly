@@ -37,8 +37,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.sesi.quizly.domain.model.QuestionModel
 import com.sesi.quizly.theme.QuizlyTypography
-import com.sesi.quizly.ui.quiz.Question
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import quizly.composeapp.generated.resources.Res
@@ -53,7 +53,7 @@ import quizly.composeapp.generated.resources.lbl_question
 
 
 @Composable
-fun QuestionBlock(index: Int, questions: List<Question>, question: String = "", isVisible:Boolean, arrow: Float = 0F, onClick: () -> Unit) {
+fun QuestionBlock(index: Int, questions: List<QuestionModel>, question: String = "", isVisible:Boolean, arrow: Float = 0F, onClick: () -> Unit) {
 
     var questionRemember by remember { mutableStateOf("") }
     var answer1Remember by remember { mutableStateOf("") }

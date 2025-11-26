@@ -44,8 +44,8 @@ import coil3.compose.AsyncImage
 import com.sesi.quizly.data.Constants
 import com.sesi.quizly.data.client.response.CreateUserResponse
 import com.sesi.quizly.ui.components.ButtonQ
-import com.sesi.quizly.ui.signin.viewmodel.SignInState
-import com.sesi.quizly.ui.signin.viewmodel.UserViewModel
+import com.sesi.quizly.viewmodel.SignInState
+import com.sesi.quizly.viewmodel.UserViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.DrawableResource
@@ -65,7 +65,7 @@ fun ProfileScreen(
     snackBarHostState: SnackbarHostState,
     navController: NavHostController,
 
-) {
+    ) {
     var userToken by remember { mutableStateOf<String?>(null) }
     LaunchedEffect(Unit) {
         preferenceManager?.getUserToken()?.collectLatest {

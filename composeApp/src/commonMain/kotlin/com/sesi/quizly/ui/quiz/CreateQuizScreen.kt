@@ -29,11 +29,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import co.touchlab.kermit.Logger
+import com.sesi.quizly.domain.model.QuestionModel
 import com.sesi.quizly.ui.components.ButtonQ
 import com.sesi.quizly.ui.components.ButtonQCustom
 import com.sesi.quizly.ui.components.QuestionBlock
 import com.sesi.quizly.ui.components.TextFieldQ
-import com.sesi.quizly.ui.quiz.viewmodel.QuizViewModel
+import com.sesi.quizly.viewmodel.QuizViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -57,7 +58,7 @@ fun Body(viewModel: QuizViewModel) {
     var titleValue by remember { mutableStateOf("") }
     var descriptionValue by remember { mutableStateOf("") }
     val questions = remember { mutableStateOf(listOf(QuestionState(id = 1))) }
-    val questionList = remember {  mutableListOf<Question>(Question(id = 1)) }
+    val questionList = remember {  mutableListOf<QuestionModel>(QuestionModel(id = 1)) }
     var toastMessage by remember { mutableStateOf<String?>(null) }
 
 
@@ -131,7 +132,7 @@ fun Body(viewModel: QuizViewModel) {
                 ) {
                     if (viewModel.isCompleteQuestion(questionList.last())) {
                         val newId = (questions.value.lastOrNull()?.id ?: 0) + 1
-                        questionList.add(Question(id = newId))
+                        questionList.add(QuestionModel(id = newId))
                         questions.value = questions.value + QuestionState(id = newId)
                     } else {
                         toastMessage = "Todos los campos son obligatorios"
@@ -146,19 +147,6 @@ fun Body(viewModel: QuizViewModel) {
     }
 }
 
-data class Question(
-    var id: Int,
-    var question: String = "",
-    var answer1: String = "",
-    var answer1Points: String = "",
-    var answer2: String = "",
-    var answer2Points: String = "",
-    var answer3: String = "",
-    var answer3Points: String = "",
-    var answer4: String = "",
-    var answer4Points: String = "",
-    var isComplete: Boolean = false
-)
 
 data class QuestionState(
     val id: Int,

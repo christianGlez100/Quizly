@@ -2,7 +2,6 @@ package com.sesi.quizly.di
 
 import com.sesi.quizly.data.datasource.UserDataSource
 import com.sesi.quizly.data.repository.UserRepository
-import com.sesi.quizly.ui.quiz.viewmodel.QuizViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -13,7 +12,8 @@ import kotlinx.serialization.json.Json
 import org.koin.core.module.dsl.createdAtStart
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.module.dsl.withOptions
-import com.sesi.quizly.ui.signin.viewmodel.UserViewModel
+import com.sesi.quizly.viewmodel.QuizViewModel
+import com.sesi.quizly.viewmodel.UserViewModel
 import org.koin.dsl.module
 import shared.Base64Converter
 import shared.preference.PreferenceManager

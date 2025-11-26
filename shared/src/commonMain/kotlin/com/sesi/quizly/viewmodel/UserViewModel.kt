@@ -1,4 +1,4 @@
-package com.sesi.quizly.ui.signin.viewmodel
+package com.sesi.quizly.viewmodel
 
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.ViewModel
