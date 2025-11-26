@@ -1,17 +1,16 @@
 package com.sesi.quizly.routes
 
-import com.sesi.quizly.getPlatform
 import com.sesi.quizly.model.Quiz
 import com.sesi.quizly.service.QuizService
 import com.sesi.quizly.service.UserService
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.auth.authenticate
 import io.ktor.server.request.receive
+import io.ktor.server.response.respond
 import io.ktor.server.routing.Routing
+import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
-import io.ktor.server.response.respond
-import io.ktor.server.routing.get
 
 fun Routing.quizRoute(quizService: QuizService, userService: UserService) {
     route("/quiz") {

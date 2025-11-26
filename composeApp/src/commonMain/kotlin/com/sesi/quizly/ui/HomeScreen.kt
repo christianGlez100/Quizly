@@ -26,7 +26,6 @@ import coil3.compose.AsyncImage
 import com.sesi.quizly.data.dto.QuizDto
 import com.sesi.quizly.theme.QuizlyTypography
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import quizly.composeapp.generated.resources.Res
 
 @Composable
 fun HomeScreen(snackbarHostState: SnackbarHostState) {

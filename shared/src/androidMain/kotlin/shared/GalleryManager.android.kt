@@ -1,10 +1,6 @@
 package shared
 
 import android.content.ContentResolver
-import android.graphics.Matrix
-import android.media.ExifInterface
-import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts

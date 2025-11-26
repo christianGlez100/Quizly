@@ -36,7 +36,6 @@ import quizly.composeapp.generated.resources.Res
 import quizly.composeapp.generated.resources.ic_camera
 import quizly.composeapp.generated.resources.ic_error_dialog
 import quizly.composeapp.generated.resources.ic_images
-import quizly.composeapp.generated.resources.ic_user
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
