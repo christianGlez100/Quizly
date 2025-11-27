@@ -44,7 +44,6 @@ class UserDataSource(
                 })
             })
             val clientResponse = ktorClient.post("${urlBase}/user") {
-               // contentType(ContentType.Application.M)
                 contentType(ContentType.MultiPart.FormData)
                 setBody(multipart)
             }
