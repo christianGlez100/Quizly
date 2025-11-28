@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
 }
 
+
 kotlin {
     androidTarget {
         compilerOptions {
@@ -16,6 +17,7 @@ kotlin {
     }
     
     listOf(
+        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
@@ -80,7 +82,7 @@ kotlin {
             implementation(libs.coil.compose)
             implementation(libs.coil.network)
             implementation(libs.androidx.navigation.compose)
-            implementation(libs.androidx.compose.material3)
+            implementation(libs.material3.compose)
 
             //Koin
             implementation(libs.koin.core)
