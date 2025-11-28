@@ -13,6 +13,7 @@ androidx-material = "1.13.0"
 androidx-test-junit = "1.3.0"
 androidx-material3 = "1.4.0"
 compose-multiplatform = "1.9.1"
+jetbrains-compose-material3 = "1.9.0"
 junit = "4.13.2"
 kotlin = "2.2.21"
 ktor = "3.3.1"
@@ -52,7 +53,6 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
 androidx-material = { group = "com.google.android.material", name = "material", version.ref = "androidx-material" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
-androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidx-material3" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
@@ -73,6 +73,7 @@ datastore-preference-core = { module = "androidx.datastore:datastore-preferences
 datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 kmm-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "kmm-settings" }
 kmm-settings-noarg = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "kmm-settings" }
+material3-compose = { module = "org.jetbrains.compose.material3:material3", version.ref = "jetbrains-compose-material3" }
 
 ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktor" }
 ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
@@ -96,7 +97,7 @@ precompose = { module = "moe.tlaster:precompose", version.ref = "precompose" }
 precompose-viewmodel = { module = "moe.tlaster:precompose-viewmodel", version.ref = "precompose" }
 landscapist-coil = { module = "com.github.skydoves:landscapist-coil3", version.ref = "landscapist-coil3" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
-coil-network = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil-network" }
+coil-network = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil-network" }
 androidx-navigation-compose = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
