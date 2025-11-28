@@ -55,7 +55,6 @@ kover {
                 name = "custom name - quizly"
                 disabled = false
                 groupBy = GroupingEntityType.APPLICATION
-
                 minBound(90)
 
             }

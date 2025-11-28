@@ -38,7 +38,6 @@ coil-network = "3.3.0"
 shadow = "8.3.6"
 kermit = "2.0.8"
 sonarqube = "7.0.1.6134"
-kover = "0.9.3"
 
 [libraries]
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit"}
@@ -120,4 +119,3 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow"}
 sonarqube = { id = "org.sonarqube", version.ref = "sonarqube"}
-ktor-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover"}
