@@ -51,8 +51,8 @@ import com.sesi.quizly.ui.components.AlertMessageDialog
 import com.sesi.quizly.ui.components.ButtonQ
 import com.sesi.quizly.ui.components.ImageSourceOptionDialog
 import com.sesi.quizly.ui.components.TextFieldQ
-import com.sesi.quizly.viewmodel.SignInState
-import com.sesi.quizly.viewmodel.UserViewModel
+import com.sesi.quizly.presenter.viewmodel.SignInState
+import com.sesi.quizly.presenter.viewmodel.UserViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

@@ -12,8 +12,8 @@ import kotlinx.serialization.json.Json
 import org.koin.core.module.dsl.createdAtStart
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.module.dsl.withOptions
-import com.sesi.quizly.viewmodel.QuizViewModel
-import com.sesi.quizly.viewmodel.UserViewModel
+import com.sesi.quizly.presenter.viewmodel.QuizViewModel
+import com.sesi.quizly.presenter.viewmodel.UserViewModel
 import org.koin.dsl.module
 import shared.Base64Converter
 import shared.preference.PreferenceManager

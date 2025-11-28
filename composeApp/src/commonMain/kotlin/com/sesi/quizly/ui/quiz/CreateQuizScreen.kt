@@ -33,7 +33,7 @@ import com.sesi.quizly.ui.components.ButtonQ
 import com.sesi.quizly.ui.components.ButtonQCustom
 import com.sesi.quizly.ui.components.QuestionBlock
 import com.sesi.quizly.ui.components.TextFieldQ
-import com.sesi.quizly.viewmodel.QuizViewModel
+import com.sesi.quizly.presenter.viewmodel.QuizViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel

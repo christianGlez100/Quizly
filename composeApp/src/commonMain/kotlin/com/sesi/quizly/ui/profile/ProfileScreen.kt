@@ -44,8 +44,8 @@ import coil3.compose.AsyncImage
 import com.sesi.quizly.data.Constants
 import com.sesi.quizly.data.client.response.CreateUserResponse
 import com.sesi.quizly.ui.components.ButtonQ
-import com.sesi.quizly.viewmodel.SignInState
-import com.sesi.quizly.viewmodel.UserViewModel
+import com.sesi.quizly.presenter.viewmodel.SignInState
+import com.sesi.quizly.presenter.viewmodel.UserViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.DrawableResource

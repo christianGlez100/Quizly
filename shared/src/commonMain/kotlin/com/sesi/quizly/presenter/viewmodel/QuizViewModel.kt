@@ -1,4 +1,4 @@
-package com.sesi.quizly.viewmodel
+package com.sesi.quizly.presenter.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.sesi.quizly.domain.model.QuestionModel
