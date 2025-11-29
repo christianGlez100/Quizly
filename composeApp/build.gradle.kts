@@ -96,6 +96,12 @@ kotlin {
             //Ktor Client
             implementation(libs.ktor.client.darwin)
         }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+        }
+        androidUnitTest.dependencies {
+
+        }
 
 
     }

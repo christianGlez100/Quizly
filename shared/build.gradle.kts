@@ -34,24 +34,7 @@ kotlin {
     sourceSets {
 
         androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
-            implementation(libs.kotlinx.coroutines.android)
             implementation(libs.accompanist.permissions)
-
-            //Koin
-            implementation(libs.koin.android)
-            implementation(libs.koin.core)
-            implementation(libs.koin.compose)
-
-            //Ktor Client
-            implementation(libs.ktor.client.okhttp)
-            implementation(libs.ktor.client.android)
-
-            //DataStore PReference
-            implementation(libs.datastore.preference)
-            api(libs.datastore.preference.core)
-            implementation(libs.datastore)
 
         }
 
@@ -85,7 +68,6 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.koin.test)
-            implementation(libs.koin.test.tools)
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.koin.test.jvm)
         }
